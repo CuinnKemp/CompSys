@@ -39,6 +39,8 @@ CHIP CPU {
         pc[15];          // address of next instruction
 
     PARTS:
+	And(a=instruction[15],b=instruction[3],out=writeM);
+
     Not(in=instruction[15],out=notins);
 
 	Mux16(a=Mout,b=instruction,sel=notins,out=kout);
@@ -56,8 +58,6 @@ CHIP CPU {
 	And(a=instruction[15],b=instruction[4],out=din);
 
 	DRegister(in=Mout,load=din,out=D);
-
-	And(a=instruction[15],b=instruction[3],out=writeM);
 
 	Not(in=ng,out=notng);
 
