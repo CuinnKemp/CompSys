@@ -39,47 +39,50 @@ CHIP CPU {
         pc[15];          // address of next instruction
 
     PARTS:
-	And(a=instruction[15],b=instruction[3],out=writeM);
 
-    Not(in=instruction[15],out=notins);
+	// Decoder
+	And(a=instruction[15],b=instruction[15],out=ins,out=type);
 
-	Mux16(a=Mout,b=instruction,sel=notins,out=kout);
+    And(a=instruction[15],b=instruction[12],out=a);
+    And(a=instruction[15],b=instruction[11],out=c1);
+    And(a=instruction[15],b=instruction[10],out=c2);
+    And(a=instruction[15],b=instruction[9],out=c3);
+    And(a=instruction[15],b=instruction[8],out=c4);
+    And(a=instruction[15],b=instruction[7],out=c5);
+    And(a=instruction[15],b=instruction[6],out=c6);
+    And(a=instruction[15],b=instruction[5],out=d1out);
+    And(a=instruction[15],b=instruction[4],out=d2);
+    And(a=instruction[15],b=instruction[3],out=d3,out=writeM);
+    And(a=instruction[15],b=instruction[2],out=j1);
+    And(a=instruction[15],b=instruction[1],out=j2);
+    And(a=instruction[15],b=instruction[0],out=j3);
+	// Decoder end
 
-	Or(a=notins,b=instruction[5],out=ain);
-
-	ARegister(in=kout,load=ain,out=a,out[0..14]=addressM);
-
-	And(a=instruction[15],b=instruction[12],out=amor);
-
-	Mux16(a=a,b=inM,sel=amor,out=am);
+	Not(in=ins, out=notins);
+    Or(a=notins, b=d1out, out=d1);
 	
-	ALU(x=D,y=am,zx=instruction[11],nx=instruction[10],zy=instruction[9],ny=instruction[8],f=instruction[7],no=instruction[6],out=Mout,out=outM,zr=zr,ng=ng);
+	Mux16(a=ALUout, b=instruction, sel=notins, out=toAReg);
+	
+	ARegister(in=toAReg, load=d1, out=ARegOut, out[0..14]=addressM);
 
-	And(a=instruction[15],b=instruction[4],out=din);
+	Mux16(a=ARegOut, b=inM, sel=a, out=AM);
 
-	DRegister(in=Mout,load=din,out=D);
+	ALU(x=DRegOut, y=AM, zx=c1, nx=c2, zy=c3, ny=c4, f=c5, no=c6, out=outM, out=ALUout, zr=zr, ng=ng);
 
-	Not(in=ng,out=notng);
+	DRegister(in=ALUout, load=d2, out=DRegOut);
 
-	Not(in=zr,out=notzr);
+	// Jump
+	And(a=j1, b=ng, out=j1out);
+    
+    And(a=j2, b=zr, out=j2out);
 
-	And(a=instruction[15],b=instruction[0],out=jgt);
+    Not(in=ng, out=k1);
+    Not(in=zr,out=k2);
+    And(a=k1,b=k2,out=pos);
+    And(a=j3,b=pos, out=j3out);
 
-	And(a=notng,b=notzr,out=pos);
+    Or8Way(in[0]=j1out, in[1]=j2out, in[2]=j3out, in[3..7]=false, out=jump);
+	// Jump end
 
-	And(a=jgt,b=pos,out=ld);
-
-	And(a=instruction[15],b=instruction[1],out=jeq);
-
-	And(a=jeq,b=zr,out=ld2);
-
-	And(a=instruction[15],b=instruction[2],out=jlt);
-
-	And(a=jlt,b=ng,out=ld3);
-
-	Or(a=ld,b=ld2,out=ldt);
-
-	Or(a=ld3,b=ldt,out=ld4);
-
-	PC(in=a,load=ld4,inc=true,reset=reset,out[0..14]=pc);
+	PC(in=ARegOut,load=jump,inc=true,reset=reset,out[0..14]=pc);
 }
