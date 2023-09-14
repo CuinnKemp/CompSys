@@ -1,4 +1,22 @@
-// Calculates the absolute value of R1 and stores the result in R0.
-// (R0, R1 refer to RAM[0], and RAM[1], respectively.)
+@R1
+D=M
+@Positive
+D;JGT
 
-// Put your code here.
+D = !D
+D = D + 1
+
+@R0
+M = D
+
+@End
+A;JMP
+
+
+(Positive)
+@R0
+M = D
+
+(End)
+@End
+A;JMP
