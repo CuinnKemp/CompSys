@@ -7,6 +7,21 @@
 // (R0, R1, R2 refer to RAM[0], RAM[1], and RAM[2], respectively.)
 
 // Put your code here.
+@R0
+M = 0
+
+@R1
+D=M
+
+@End
+D;JEQ
+
+@R2
+D=M
+
+@End
+D;JEQ
+
 @R2
 D=M
 @Positive
@@ -18,10 +33,6 @@ D = D + 1
 (Positive)
 @counter
 M = D
-
-@R0
-M = 0
-
 
 (Loop)
 @R1
@@ -41,6 +52,8 @@ D = M
 
 @NEG
 D;JLT
+
+
 
 (End)
 @End
