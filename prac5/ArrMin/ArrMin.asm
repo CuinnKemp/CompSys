@@ -3,67 +3,64 @@
 
 // Put your code here.
 //initialise variables
-
+//Check if array start far above R2
 @R1
 D=M
 
-@ArrOne
-M=D
+@END
+D=D-1
+D=D-1
+D;JLE
 
-@R2
-D=M
-
-@ArrLen
-M=D
-
-@ArrPoint
+//get current tempMin
+@R1
 A=M
-D=M
-
-@tempMin
-M=D
-
-@LoopCounter
-M = 1
-
-(Loop)
-@LoopCounter
-D = M
-
-@ArrPoint
-A = M + D
-D = M
-
-@tempMin
-D = D-M
-
-@keepTemp
-D;JLT
-
-@ArrPoint
-A = M + D
-D = M
-
-@tempMin
-M=D
-
-(keepTemp)
-@LoopCounter
-M = M + 1
-D = M
-
-@ArrLen
-D = D+1
-D = M-D
-
-@Loop
-D;JLT
-
-@tempMin
 D=M
 
 @R0
 M=D
+
+//Check that length of array is sufficient
+@R2
+D=M
+
+@END
+D;JLE
+
+
+
+(Loop)
+@R2
+D = M
+
+@R1
+D=D-1
+A = M + D
+D = M
+
+@R0
+D = M-D
+
+@keepTemp
+D;JLT
+@R2
+D=M
+
+@R1
+D=D-1
+A = M + D
+D = M
+
+@R0
+M=D
+
+(keepTemp)
+@R2
+M = M-1
+D = M
+
+@Loop
+D;JGT
 
 (END)
 @END
