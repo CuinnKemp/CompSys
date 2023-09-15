@@ -1,67 +1,74 @@
 // Finds the smallest element in the array of length R2 whose first element is at RAM[R1] and stores the result in R0.
 // (R0, R1, R2 refer to RAM[0], RAM[1], and RAM[2], respectively.)
-
 // Put your code here.
-//initialise variables
-//Check if array start far above R2
-@R1
-D=M
 
-@END
-D=D-1
-D=D-1
-D;JLE
-
-//get current tempMin
-@R1
-A=M
-D=M
-
-@R0
-M=D
-
-//Check that length of array is sufficient
-@R2
-D=M
-
-@END
-D;JLE
+    // Checking if the start of the array is past the 2nd postiion
+    @R1
+    D=M
+    D=D-1
+    D=D-1
+    @END
+    D;JLT
+    //Resetting it back to how it was
+    D=D+1
+    D=D+1
+    
+    // Sets R0 to R1 (base case)
+    @R0
+    M=D
+    
+    @R2
+    D=M
+    //Sends to the end if Array size is less than 1
+    @END
+    D;JLT
 
 
+    // Three Sections, Main Loop, If smaller, Next element
+(MAIN_LOOP)
 
-(Loop)
-@R2
-D = M
+    // Sets next address
+    @R1
+    A=M
+    D=M
+    
 
-@R1
-D=D-1
-A = M + D
-D = M
+    // Current element vs smallest found so far
+    @R0 
+    D=D-M
 
-@R0
-D = M-D
+    @IF_SMALLER
+    D;JLT
 
-@keepTemp
-D;JLT
-@R2
-D=M
+    @NEXT_ELEMENT
+    0;JMP
 
-@R1
-D=D-1
-A = M + D
-D = M
 
-@R0
-M=D
+(IF_SMALLER)
+    // Sets R0 to R1
+    @R1
+    A=M
+    D=M
+    @R0
+    M=D
 
-(keepTemp)
-@R2
-M = M-1
-D = M
+(NEXT_ELEMENT)
 
-@Loop
-D;JGT
+    // Iterates R1
+    @R1
+    M=M+1
+
+    //Decrements R2
+    @R2
+    M=M-1
+
+    // Goes back and does it again if R2 > 0
+    @R2
+    D=M
+    @MAIN_LOOP
+    D;JGT 
 
 (END)
-@END
-A;JMP
+    @END
+    0;JMP    
+
