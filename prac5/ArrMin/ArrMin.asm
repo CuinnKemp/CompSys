@@ -63,22 +63,15 @@ A;JMP
 D = M
 @keepTemp
 D;JLE
-//CONTINUE WITH both neg both positive program
+
 @NNPP
 A;JMP
 
 
 (BNEGAPOS)
-@R2
-D = M
+@NewMin
+A;JMP
 
-@R1
-D=D-1
-A = M + D
-D = M
-
-@R0
-M=D
 @keepTemp
 A;JMP
 
@@ -97,6 +90,7 @@ D = M-D
 @keepTemp
 D;JLE
 
+(NEW MIN)
 @R2
 D=M
 
