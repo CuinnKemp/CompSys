@@ -1,3 +1,31 @@
+//Check if array start far above R2
+@R1
+D=M
+@R2
+D=M+D
+@16383
+D=A-D
+@Sorted
+D;JLT
+
+@R1
+D=M
+D=D-1
+D=D-1
+
+@Sorted
+D;JLE
+
+//Check that length of array is sufficient
+@R2
+D=M
+
+@Sorted
+D;JLE
+
+
+
+
 (MainLoop)
 @R1
 D = M
@@ -156,6 +184,7 @@ D = D - M
 @scLoop
 D;JNE
 
+(Sorted)
 @R0
 M = -1
 
