@@ -7,7 +7,7 @@
 D=M
 @R2
 D=M+D
-@16384
+@16383
 D=A-D
 @END
 D;JLT
