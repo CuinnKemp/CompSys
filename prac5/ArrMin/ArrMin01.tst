@@ -1,11 +1,11 @@
-// Sample Test file for ArrMin.asm
+// overflow cases
 // Follows the Test Scripting Language format described in 
 // Appendix B of the book "The Elements of Computing Systems"
 
 load ArrMin.asm,
-output-file ArrMin00.out,
-compare-to ArrMin00.cmp,
-output-list RAM[0]%D2.6.2 RAM[1]%D2.6.2 RAM[2]%D2.6.2 RAM[20]%D2.6.2 RAM[21]%D2.6.2 RAM[22]%D2.6.2 RAM[23]%D2.6.2;
+output-file ArrMin01.out,
+compare-to ArrMin01.cmp,
+output-list RAM[0]%D2.6.2 RAM[1]%D2.6.2 RAM[2]%D2.6.2 RAM[5]%D2.6.2 RAM[6]%D2.6.2 RAM[7]%D2.6.2 RAM[8]%D2.6.2;
 
 set PC 0,
 set RAM[0]  0,  // Set R0
