@@ -5,6 +5,16 @@
 //Check if array start far above R2
 @R1
 D=M
+@R2
+D=M+D
+@16384
+D=A-D
+@END
+D;JLT
+
+
+@R1
+D=M
 
 @END
 D=D-1
