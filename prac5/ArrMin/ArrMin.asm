@@ -47,45 +47,56 @@ D=D-1
 A = M + D
 D = M
 
-@R0
-D = M-D
+@BPOS
+D;JGE
 
+@R0
+D = M
+@BNEGAPOS
+D;JGE
+
+@NNPP
+A;JMP
+
+(BPOS)
+@R0
+D = M
 @keepTemp
-D;JLT
+D;JLE
+//CONTINUE WITH both neg both positive program
+@NNPP
+A;JMP
+
+
+(BNEGAPOS)
+@R2
+D = M
 
 @R1
 D=D-1
 A = M + D
 D = M
 
-@DMNEG
-D;JLT
-
-@DMPOS
-D;JGE
-
-(DMNEG)
 @R0
+M=D
+@keepTemp
+A;JMP
+
+(NNPP)
+@R2
 D = M
-@NotOverflow
-D;JLT
+
+@R1
+D=D-1
+A = M + D
+D = M
+
+@R0
+D = M-D
 
 @keepTemp
-D;JMP
+D;JLE
 
-(DMPOS)
-@R0
-D = M
-
-@NotOverflow
-D;JGE
-
-@keepTemp
-D;JMP
-
-(NotOverflow)
-@R0
-D = M
 @R2
 D=M
 
@@ -93,9 +104,6 @@ D=M
 D=D-1
 A = M + D
 D = M
-
-@keepTemp
-D;
 
 @R0
 M=D
