@@ -7,46 +7,14 @@ M = D
 @R3
 A = M
 D = M
-
-@swAPOS
-D;JGE
-
-@swANEG
-D;JMP
-
-(swAPOS)
-@R3
-A = M + 1
-D = M
-
-@swChangeOrder
-D;JLT
-
-@swNNPP
-D;JMP
-
-(swANEG)
-@R3
-A = M + 1
-D = M
-
-@swNNPP
-D;JLT
-
-@swkeepOrder
-D;JMP
-
-(swNNPP)
-@R3
-A = M
-D = M
 A = A + 1
 D = M - D
 
-@swkeepOrder
+@keepOrder
 D;JGE
 
-(swChangeOrder)
+
+(ChangeOrder)
 @R3
 A = M
 D = M
@@ -73,7 +41,7 @@ A = M
 A = A + 1
 M = D
 
-(swkeepOrder)
+(keepOrder)
 @R3
 M = M + 1
 
