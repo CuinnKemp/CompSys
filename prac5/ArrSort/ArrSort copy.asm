@@ -1,3 +1,31 @@
+//Check if array start far above R2
+@R1
+D=M
+@R2
+D=M+D
+@16383
+D=A-D
+@Sorted
+D;JLT
+
+@R1
+D=M
+D=D-1
+D=D-1
+
+@Sorted
+D;JLE
+
+//Check that length of array is sufficient
+@R2
+D=M
+
+@Sorted
+D;JLE
+
+
+
+
 (MainLoop)
 @R1
 D = M
@@ -7,14 +35,46 @@ M = D
 @R3
 A = M
 D = M
+
+@swAPOS
+D;JGE
+
+@swANEG
+D;JMP
+
+(swAPOS)
+@R3
+A = M + 1
+D = M
+
+@swChangeOrder
+D;JLT
+
+@swNNPP
+D;JMP
+
+(swANEG)
+@R3
+A = M + 1
+D = M
+
+@swNNPP
+D;JLT
+
+@swkeepOrder
+D;JMP
+
+(swNNPP)
+@R3
+A = M
+D = M
 A = A + 1
 D = M - D
 
-@keepOrder
+@swkeepOrder
 D;JGE
 
-
-(ChangeOrder)
+(swChangeOrder)
 @R3
 A = M
 D = M
@@ -41,7 +101,7 @@ A = M
 A = A + 1
 M = D
 
-(keepOrder)
+(swkeepOrder)
 @R3
 M = M + 1
 
@@ -124,6 +184,7 @@ D = D - M
 @scLoop
 D;JNE
 
+(Sorted)
 @R0
 M = -1
 
