@@ -61,7 +61,7 @@ D;JGE
 
 @R0
 D = M
-@SwitchElements
+@BNEGAPOS
 D;JGE
 
 @NNPP
@@ -74,6 +74,21 @@ D = M
 D;JLE
 //CONTINUE WITH both neg both positive program
 @NNPP
+A;JMP
+
+
+(BNEGAPOS)
+@R5
+D = M
+
+@R1
+D=D-1
+A = M + D
+D = M
+
+@R0
+M=D
+@keepTemp
 A;JMP
 
 (NNPP)
@@ -91,7 +106,6 @@ D = M-D
 @keepTemp
 D;JLE
 
-(SwitchElements)
 @R5
 D=M
 
@@ -153,7 +167,7 @@ M = M + 1
 
 @R2
 M = M - 1
-D = M
+D = M - 1
 
 @MainLoop
 D;JGT
