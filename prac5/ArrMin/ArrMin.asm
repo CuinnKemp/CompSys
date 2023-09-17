@@ -108,6 +108,9 @@ D = M
 @R0
 M=D
 
+@R4
+M = D
+
 (keepTemp)
 @R2
 M = M-1
