@@ -39,10 +39,9 @@ M = 0
 
 (Loop)
 @R5
-D = M
+D = M - 1
 
 @R1
-D=D-1
 A = M + D
 D = M
 
@@ -97,7 +96,7 @@ M = D-1
 (keepTemp)
 @R5
 M = M-1
-D = M
+D = M-1
 
 @Loop
 D;JGT
@@ -130,7 +129,6 @@ D = M
 @R1
 A = M
 M = D
-
 
 @R1
 M = M + 1
