@@ -4,22 +4,13 @@
 // Put your code here.
 //Check if array start far above R2
 
-@R1
-D=M
-@R2
-D=M+D
-@16383
-D=A-D
-@SORTED
-D;JLT
-
+@2
+D = A
 
 @R1
-D=M
+D=M - D
 
 @SORTED
-D=D-1
-D=D-1
 D;JLE
 
 //Check that length of array is sufficient
@@ -32,7 +23,6 @@ D;JLE
 (MainLoop)
 @R2
 D = M
-
 @R5
 M = D
 
@@ -56,6 +46,10 @@ D=D-1
 A = M + D
 D = M
 
+@R7
+M = D
+
+
 @BPOS
 D;JGE
 
@@ -77,12 +71,7 @@ D;JLE
 A;JMP
 
 (NNPP)
-@R5
-D = M
-
-@R1
-D=D-1
-A = M + D
+@R7
 D = M
 
 @R0
@@ -92,12 +81,7 @@ D = M-D
 D;JLE
 
 (SwitchElements)
-@R5
-D=M
-
-@R1
-D=D-1
-A = M + D
+@R7
 D = M
 
 @R0
@@ -153,7 +137,7 @@ M = M + 1
 
 @R2
 M = M - 1
-D = M
+D = M - 1
 
 @MainLoop
 D;JGT
