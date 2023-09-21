@@ -38,25 +38,30 @@ M=D
 M = 0
 
 (Loop)
+// get the loop counter - 1
 @R5
 D = M - 1
 
+// get the value to compare
 @R1
 A = M + D
 D = M
 
+// store the comparison value at Ram[7]
 @R7
 M = D
 
-
+//check whether B is positive
 @BPOS
 D;JGE
 
+// if it isnt and a is positve switch em
 @R0
 D = M
 @SwitchElements
 D;JGE
 
+// otherwise go to NNPP
 @NNPP
 A;JMP
 
@@ -66,19 +71,22 @@ D = M
 @keepTemp
 D;JLE
 //CONTINUE WITH both neg both positive program
-@NNPP
-A;JMP
 
+// Negative and negative and positive positive
 (NNPP)
+// get the value being compared with
 @R7
 D = M
 
+// check 0 < a-b (b < a)
 @R0
 D = M-D
 
+// if this is true than dont switch
 @keepTemp
 D;JLE
 
+// otherwise continue and swap min
 (SwitchElements)
 @R7
 D = M
@@ -100,6 +108,9 @@ D = M-1
 
 @Loop
 D;JGT
+
+//after getting the minimum value
+
 
 // get location of min
 @R4

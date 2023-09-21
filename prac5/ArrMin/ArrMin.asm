@@ -39,22 +39,30 @@ D;JLE
 
 
 (Loop)
+// get the loop counter - 1
 @R2
-D = M
+D = M - 1
 
+// get the value to compare
 @R1
-D=D-1
 A = M + D
 D = M
 
+// store the comparison value at Ram[7]
+@R7
+M = D
+
+//check whether B is positive
 @BPOS
 D;JGE
 
+// if it isnt and a is positve switch em
 @R0
 D = M
-@BNEGAPOS
+@SwitchElements
 D;JGE
 
+// otherwise go to NNPP
 @NNPP
 A;JMP
 
@@ -64,57 +72,36 @@ D = M
 @keepTemp
 D;JLE
 //CONTINUE WITH both neg both positive program
-@NNPP
-A;JMP
 
-
-(BNEGAPOS)
-@R2
-D = M
-
-@R1
-D=D-1
-A = M + D
-D = M
-
-@R0
-M=D
-@keepTemp
-A;JMP
-
+// Negative and negative and positive positive
 (NNPP)
-@R2
+// get the value being compared with
+@R7
 D = M
 
-@R1
-D=D-1
-A = M + D
-D = M
-
+// check 0 < a-b (b < a)
 @R0
 D = M-D
 
+// if this is true than dont switch
 @keepTemp
 D;JLE
 
-@R2
-D=M
-
-@R1
-D=D-1
-A = M + D
+// otherwise continue and swap min
+(SwitchElements)
+@R7
 D = M
 
 @R0
 M=D
 
-@R4
-M = D
+@R2
+D = M
 
 (keepTemp)
 @R2
 M = M-1
-D = M
+D = M-1
 
 @Loop
 D;JGT
