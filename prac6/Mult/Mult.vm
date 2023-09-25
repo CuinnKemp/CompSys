@@ -56,14 +56,13 @@ label ycont
 push static 3
 push static 4
 gt
-
 if-goto xGTy
 // x is less than y
 push static 3
 pop static 2
 
 label aLoop
-push static 1
+push static 4
 push local 0
 add
 pop local 0
@@ -85,7 +84,7 @@ push static 4
 pop static 2
 
 label bLoop
-push static 0
+push static 3
 push local 0
 add
 pop local 0
