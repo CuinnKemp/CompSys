@@ -7,10 +7,58 @@ push constant 0
 pop local 0
 
 push static 0
+push constant 0
+eq
+if-goto END
+
 push static 1
+push constant 0
+eq
+if-goto END
+
+
+// abs(X)
+push static 0
+push constant 0
 gt
+if-goto xPos
+push static 0
+neg
+pop static 3
+
+goto xcont
+
+label xPos
+push static 0
+pop static 3
+
+label xcont
+
+
+// abs(Y)
+push static 1
+push constant 0
+gt
+if-goto yPos
+push static 1
+neg
+pop static 4
+
+goto ycont
+
+label yPos
+push static 1
+pop static 4
+
+label ycont
+
+// multiply
+push static 3
+push static 4
+gt
+
 if-goto xGTy
-//x is less than y
+// x is less than y
 push static 0
 pop static 2
 
@@ -29,16 +77,9 @@ push static 2
 push constant 0
 gt
 if-goto aLoop
-goto END
+goto checkNeg
 
-
-
-
-
-
-
-
-
+// x is greater than y
 label xGTy
 push static 1
 pop static 2
@@ -58,7 +99,33 @@ push static 2
 push constant 0
 gt
 if-goto bLoop
-goto END
+
+
+
+
+
+
+
+// check if x and y are negative
+label checkNeg
+push static 0
+push constant 0
+gt
+if-goto skip1
+push local 0
+neg
+pop local 0
+
+label skip1
+push static 1
+push constant 0
+gt
+if-goto skip2
+push local 0
+neg
+pop local 0
+
+label skip2
 
 label END
 goto END
