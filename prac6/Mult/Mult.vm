@@ -6,7 +6,6 @@
 push constant 0
 pop local 0
 
-
 push static 0
 push static 1
 gt
@@ -45,7 +44,7 @@ push static 1
 pop static 2
 
 label bLoop
-push static 1
+push static 0
 push local 0
 add
 pop local 0
