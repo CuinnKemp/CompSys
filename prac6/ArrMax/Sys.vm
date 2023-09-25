@@ -1,0 +1,12 @@
+// Runs x = ArrMax.arrMax(y,z) 
+// x, y & z are static variables
+
+function Sys.init 0
+
+push static 1
+push static 2
+call ArrMax.arrMax 2
+pop static 0
+
+label END
+goto END

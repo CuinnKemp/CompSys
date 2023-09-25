@@ -1,0 +1,65 @@
+// Calculates a = x*y
+// a is a local variable
+// x & y are static variables
+
+// Put your code here.
+push constant 0
+pop local 0
+
+
+push static 0
+push static 1
+gt
+if-goto xGTy
+//x is less than y
+push static 0
+pop static 2
+
+label aLoop
+push static 1
+push local 0
+add
+pop local 0
+
+push static 2
+push constant 1
+sub
+pop static 2
+
+push static 2
+push constant 0
+gt
+if-goto aLoop
+goto END
+
+
+
+
+
+
+
+
+
+label xGTy
+push static 1
+pop static 2
+
+label bLoop
+push static 1
+push local 0
+add
+pop local 0
+
+push static 2
+push constant 1
+sub
+pop static 2
+
+push static 2
+push constant 0
+gt
+if-goto bLoop
+goto END
+
+label END
+goto END

@@ -4,11 +4,8 @@
 // Put your code here.
 //Check if array start far above R2
 
-@2
-D = A
-
 @R1
-D=M - D
+D=M - 1
 
 @SORTED
 D;JLE
@@ -103,11 +100,11 @@ M = D-1
 
 (keepTemp)
 @R5
-M = M-1
-D = M-1
+MD = M-1
+
 
 @Loop
-D;JGT
+D-1;JGT
 
 //after getting the minimum value
 

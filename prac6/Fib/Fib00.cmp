@@ -1,0 +1,2 @@
+|   sp   | local  | argument |  this  |  that  |RAM[16] |RAM[17] |RAM[18] | local[0] | local[1] | local[2] | argument[0] | argument[1] | argument[2] |
+|    256 |    300 |      400 |   3000 |   3010 |      3 |      4 |      0 |       10 |       20 |       30 |         100 |         200 |         300 |

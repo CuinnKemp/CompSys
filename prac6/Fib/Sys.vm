@@ -1,0 +1,11 @@
+// Runs x = Fib.fib(y) 
+// x & y are static variables
+
+function Sys.init 0
+
+push static 1
+call Fib.fib 1
+pop static 0
+
+label END
+goto END
