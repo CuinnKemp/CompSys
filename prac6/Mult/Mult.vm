@@ -59,7 +59,7 @@ gt
 
 if-goto xGTy
 // x is less than y
-push static 0
+push static 3
 pop static 2
 
 label aLoop
@@ -81,7 +81,7 @@ goto checkNeg
 
 // x is greater than y
 label xGTy
-push static 1
+push static 4
 pop static 2
 
 label bLoop
