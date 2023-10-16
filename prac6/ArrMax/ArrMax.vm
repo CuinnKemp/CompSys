@@ -2,4 +2,67 @@
 // a & b are both supplied as arguments
 
 // Put your code here.
+function ArrMax.arrMax 2
+// if size less than or equal to 0
+push argument 1
+push constant 1
+lt
+if-goto retFalse
+
+//normal case
+
+// loop counter
+push constant 0
+pop temp 0
+
+//get pointer
+push argument 0
+pop pointer 1 
+
+//store best value in temp 1
+push that 0
+pop temp 1
+
+label loop
+//loop exit
+push temp 0
+push constant 1
+add
+pop temp 0
+
+push argument 1
+push temp 0
+eq
+if-goto loopEnd
+
+push argument 0
+push temp 0
+add
+pop pointer 1
+
+push that 0
+//store current value
+pop temp 2
+
+push temp 2
+push temp 1
+gt
+if-goto newVal
+goto loop
+
+label newVal
+push temp 2
+pop temp 1
+goto loop
+
+label loopEnd
+
+push temp 1
+return
+
+label retFalse
+push constant 0
+return
+
+
 

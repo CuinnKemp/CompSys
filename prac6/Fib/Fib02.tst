@@ -1,4 +1,4 @@
-// Sample Test file for ArrSort.asm
+// large value of n
 // Follows the Test Scripting Language format described in 
 // Appendix B of the book "The Elements of Computing Systems"
 
