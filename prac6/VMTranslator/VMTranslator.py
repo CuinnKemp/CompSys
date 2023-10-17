@@ -1,34 +1,35 @@
+def reformatSegment(self, segment, offset):
+    if (segment == "this"):
+        return "THIS"
+
+    if (segment == "that"):
+        return "THAT"
+
+    if (segment == "argument"):
+        return "ARG"
+    
+    if (segment == "local"):
+        return "LCL"
+    
+    if (segment == "static"):
+        return str(16+offset)
+
+    if (segment == "pointer"):
+        return "R" + str(3 + offset)
+
+    if (segment == "temp"):
+        return "R" + str(5 + offset)
+
+    if (segment == "constant"):
+        return str(offset)
+    
+    return ""
+
+
 class VMTranslator:
-    def reformatSegment(self, segment, offset):
-        if (segment == "this"):
-            return "THIS"
-
-        if (segment == "that"):
-            return "THAT"
-
-        if (segment == "argument"):
-            return "ARG"
-        
-        if (segment == "local"):
-            return "LCL"
-        
-        if (segment == "static"):
-            return str(16+offset)
-
-        if (segment == "pointer"):
-            return "R" + str(3 + offset)
-
-        if (segment == "temp"):
-            return "R" + str(5 + offset)
-
-        if (segment == "constant"):
-            return str(offset)
-        
-        return ""
-
-    def vm_push(self, segment, offset):
+    def vm_push(segment, offset):
         '''Generate Hack Assembly code for a VM push operation'''
-        refSeg = self.reformatSegment(segment, offset)
+        refSeg = reformatSegment(segment, offset)
         retString = ""
         if (segment == "constant" or segment == "static" or segment == "pointer" or segment == "temp"):
             if segment == "constant":
@@ -52,7 +53,11 @@ class VMTranslator:
 
     def vm_pop(segment, offset):
         '''Generate Hack Assembly code for a VM pop operation'''
-        return ""
+        refSeg = reformatSegment(segment, offset)
+        retString = "@" + refSeg
+
+
+        return retString
 
     def vm_add():
         '''Generate Hack Assembly code for a VM add operation'''
