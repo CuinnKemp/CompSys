@@ -47,7 +47,7 @@ class VMTranslator:
         retString += "M=D"
         retString += "@SP"
         retString += "M = M+1"
-        
+
         return retString
 
     def vm_pop(segment, offset):
@@ -56,27 +56,71 @@ class VMTranslator:
 
     def vm_add():
         '''Generate Hack Assembly code for a VM add operation'''
-        return ""
+        retString = "@SP\n"
+        retString += "A = M-1\n"
+        retString += "D = M"
+        retString += "A = A-1\n"
+        retString += "M = D + M\n"
+
+        return retString
 
     def vm_sub():
         '''Generate Hack Assembly code for a VM sub operation'''
-        return ""
+        retString = "@SP\n"
+        retString += "A = M-1\n"
+        retString += "D = M"
+        retString += "A = A-1\n"
+        retString += "M = M - D\n"
+
+        return retString
 
     def vm_neg():
         '''Generate Hack Assembly code for a VM neg operation'''
-        return ""
+        retString = "@SP\n"
+        retString += "A = M-1\n"
+        retString += "M = !M"
+        retString += "M = M + 1"
+
+        return retString
 
     def vm_eq():
         '''Generate Hack Assembly code for a VM eq operation'''
-        return ""
+        retString = "@SP\n"
+        retString += "AM = M-1\n"
+        retString += "D = M"
+        retString += "A = A-1\n"
+        retString += "D = M - D\n"
+        retString += "D;JEQ True\n"
+        retString += "M = 0\n"
+        retString += "(True)"
+        retString += "M = -1"
+        return retString
 
     def vm_gt():
         '''Generate Hack Assembly code for a VM gt operation'''
-        return ""
+        retString = "@SP\n"
+        retString += "AM = M-1\n"
+        retString += "D = M"
+        retString += "A = A-1\n"
+        retString += "D = M - D\n"
+        retString += "D;JGT True\n"
+        retString += "M = 0\n"
+        retString += "(True)"
+        retString += "M = -1"
+        return retString
 
     def vm_lt():
         '''Generate Hack Assembly code for a VM lt operation'''
-        return ""
+        retString = "@SP\n"
+        retString += "AM = M-1\n"
+        retString += "D = M"
+        retString += "A = A-1\n"
+        retString += "D = M - D\n"
+        retString += "D;JLT True\n"
+        retString += "M = 0\n"
+        retString += "(True)\n"
+        retString += "M = -1\n"
+        return retString
 
     def vm_and():
         '''Generate Hack Assembly code for a VM and operation'''
