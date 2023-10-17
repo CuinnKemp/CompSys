@@ -1,4 +1,4 @@
-def reformatSegment(self, segment, offset):
+def reformatSegment(segment, offset):
     if (segment == "this"):
         return "THIS"
 
@@ -71,7 +71,7 @@ class VMTranslator:
         retString += "@R13\n"
         retString += "A=M\n"
         retString += "M=D"
-        
+
         return retString
 
     def vm_add():
