@@ -54,9 +54,24 @@ class VMTranslator:
     def vm_pop(segment, offset):
         '''Generate Hack Assembly code for a VM pop operation'''
         refSeg = reformatSegment(segment, offset)
-        retString = "@" + refSeg
+        retString = "@" + refSeg + "\n"
+        
+        if (segment == "static" or segment == "temp" or segment == "pointer"):
+            retString += "D = A\n"
+        elif (segment == "local" or segment == "this" or segment == "that" or segment == "argument"):
+            retString += "D = M\n"
+            retString += "@" + str(offset) + "\n"
+            retString += "D = D + A\n"
 
-
+        retString += "@R13\n"
+        retString += "M = D\n"
+        retString += "@SP\n"
+        retString += "AM = M -1\n"
+        retString += "D=M\n"
+        retString += "@R13\n"
+        retString += "A=M\n"
+        retString += "M=D"
+        
         return retString
 
     def vm_add():
