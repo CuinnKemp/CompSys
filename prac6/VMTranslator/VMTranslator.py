@@ -57,7 +57,7 @@ class VMTranslator:
     def vm_add():
         '''Generate Hack Assembly code for a VM add operation'''
         retString = "@SP\n"
-        retString += "A = M-1\n"
+        retString += "AM = M-1\n"
         retString += "D = M\n"
         retString += "A = A-1\n"
         retString += "M = D + M"
@@ -67,7 +67,7 @@ class VMTranslator:
     def vm_sub():
         '''Generate Hack Assembly code for a VM sub operation'''
         retString = "@SP\n"
-        retString += "A = M-1\n"
+        retString += "AM = M-1\n"
         retString += "D = M\n"
         retString += "A = A-1\n"
         retString += "M = M - D"
