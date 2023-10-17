@@ -92,8 +92,10 @@ class VMTranslator:
         retString += "D = M - D\n"
         retString += "D;JEQ True\n"
         retString += "M = 0\n"
+        retString += "0;JMP Cont1\n"
         retString += "(True)\n"
-        retString += "M = -1"
+        retString += "M = -1\n"
+        retString += "(Cont1)"
         return retString
 
     def vm_gt():
@@ -105,8 +107,10 @@ class VMTranslator:
         retString += "D = M - D\n"
         retString += "D;JGT True\n"
         retString += "M = 0\n"
+        retString += "0;JMP Cont1\n"
         retString += "(True)\n"
-        retString += "M = -1"
+        retString += "M = -1\n"
+        retString += "(Cont1)"
         return retString
 
     def vm_lt():
@@ -118,8 +122,10 @@ class VMTranslator:
         retString += "D = M - D\n"
         retString += "D;JLT True\n"
         retString += "M = 0\n"
+        retString += "0;JMP Cont1\n"
         retString += "(True)\n"
-        retString += "M = -1"
+        retString += "M = -1\n"
+        retString += "(Cont1)"
         return retString
 
     def vm_and():
