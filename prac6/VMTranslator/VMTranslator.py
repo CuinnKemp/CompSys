@@ -32,9 +32,9 @@ class VMTranslator:
         retString = ""
         if (segment == "constant" or segment == "static" or segment == "pointer" or segment == "temp"):
             if segment == "constant":
-                retString += "D = A"
+                retString += "D = A\n"
             else:
-                retString += "D = M"
+                retString += "D = M\n"
         elif (segment == "local" or segment == "this" or segment == "that" or segment == "argument"):
             retString += "@" + refSeg + "\n"
             retString += "D = M\n"
@@ -43,9 +43,9 @@ class VMTranslator:
             retString += "D=M\n"
         
         retString += "@SP\n"
-        retString += "A=M"
-        retString += "M=D"
-        retString += "@SP"
+        retString += "A=M\n"
+        retString += "M=D\n"
+        retString += "@SP\n"
         retString += "M = M+1"
 
         return retString
@@ -58,9 +58,9 @@ class VMTranslator:
         '''Generate Hack Assembly code for a VM add operation'''
         retString = "@SP\n"
         retString += "A = M-1\n"
-        retString += "D = M"
+        retString += "D = M\n"
         retString += "A = A-1\n"
-        retString += "M = D + M\n"
+        retString += "M = D + M"
 
         return retString
 
@@ -68,9 +68,9 @@ class VMTranslator:
         '''Generate Hack Assembly code for a VM sub operation'''
         retString = "@SP\n"
         retString += "A = M-1\n"
-        retString += "D = M"
+        retString += "D = M\n"
         retString += "A = A-1\n"
-        retString += "M = M - D\n"
+        retString += "M = M - D"
 
         return retString
 
@@ -78,7 +78,7 @@ class VMTranslator:
         '''Generate Hack Assembly code for a VM neg operation'''
         retString = "@SP\n"
         retString += "A = M-1\n"
-        retString += "M = !M"
+        retString += "M = !M\n"
         retString += "M = M + 1"
 
         return retString
@@ -87,12 +87,12 @@ class VMTranslator:
         '''Generate Hack Assembly code for a VM eq operation'''
         retString = "@SP\n"
         retString += "AM = M-1\n"
-        retString += "D = M"
+        retString += "D = M\n"
         retString += "A = A-1\n"
         retString += "D = M - D\n"
         retString += "D;JEQ True\n"
         retString += "M = 0\n"
-        retString += "(True)"
+        retString += "(True)\n"
         retString += "M = -1"
         return retString
 
@@ -100,12 +100,12 @@ class VMTranslator:
         '''Generate Hack Assembly code for a VM gt operation'''
         retString = "@SP\n"
         retString += "AM = M-1\n"
-        retString += "D = M"
+        retString += "D = M\n"
         retString += "A = A-1\n"
         retString += "D = M - D\n"
         retString += "D;JGT True\n"
         retString += "M = 0\n"
-        retString += "(True)"
+        retString += "(True)\n"
         retString += "M = -1"
         return retString
 
@@ -113,13 +113,13 @@ class VMTranslator:
         '''Generate Hack Assembly code for a VM lt operation'''
         retString = "@SP\n"
         retString += "AM = M-1\n"
-        retString += "D = M"
+        retString += "D = M\n"
         retString += "A = A-1\n"
         retString += "D = M - D\n"
         retString += "D;JLT True\n"
         retString += "M = 0\n"
         retString += "(True)\n"
-        retString += "M = -1\n"
+        retString += "M = -1"
         return retString
 
     def vm_and():
