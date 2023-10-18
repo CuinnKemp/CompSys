@@ -295,7 +295,7 @@ class VMTranslator:
         retString += "D=D-A\n"
         retString += "@ARG\n"
         retString += "M=D\n"
-        
+
         retString += "@SP\n"
         retString += "D=M\n"
         retString += "@LCL\n"
@@ -351,7 +351,7 @@ class VMTranslator:
         retString += "M=D\n"
 
         retString += "@LCL\n"
-        retString += "AM=M-1\n"
+        retString += "A=M-1\n"
         retString += "D=M\n"
         retString += "@LCL\n"
         retString += "M=D\n"
