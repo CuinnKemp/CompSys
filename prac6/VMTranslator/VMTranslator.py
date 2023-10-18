@@ -280,6 +280,9 @@ class VMTranslator:
         retString += "A=M\n"
         retString += "M=D\n"
 
+        retString += "@SP\n"
+        retString += "M=M+1\n"
+
         retString += "@THAT\n"
         retString += "D=M\n"
         retString += "@SP\n"
