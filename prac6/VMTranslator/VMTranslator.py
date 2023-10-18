@@ -29,8 +29,8 @@ class VMTranslator:
     labelCounter = 0
     
     def newLabel():
-        retString = str(labelCounter)
-        labelCounter += 1
+        retString = str(VMTranslator.labelCounter)
+        VMTranslator.labelCounter += 1
         return retString
 
     def vm_push(segment, offset):
