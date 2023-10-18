@@ -25,8 +25,14 @@ def reformatSegment(segment, offset):
     
     return ""
 
-
 class VMTranslator:
+    labelCounter = 0
+    
+    def newLabel():
+        retString = str(labelCounter)
+        labelCounter += 1
+        return retString
+
     def vm_push(segment, offset):
         '''Generate Hack Assembly code for a VM push operation'''
         refSeg = reformatSegment(segment, offset)
@@ -106,47 +112,62 @@ class VMTranslator:
 
     def vm_eq():
         '''Generate Hack Assembly code for a VM eq operation'''
+        label = VMTranslator.newLabel()
         retString = "@SP\n"
         retString += "AM = M-1\n"
         retString += "D = M\n"
         retString += "A = A-1\n"
         retString += "D = M - D\n"
-        retString += "D;JEQ True\n"
+        retString += "@EQ.true" + label + "\n"
+        retString += "D;JEQ\n"
+        retString += "@SP\n"
+        retString += "A = M-1\n"
         retString += "M = 0\n"
-        retString += "0;JMP Cont1\n"
-        retString += "(True)\n"
+        retString += "@EQ.skip" + label + "\n"
+        retString += "0;JMP\n"
+        retString += "(EQ.true"+ label +")\n"
         retString += "M = -1\n"
-        retString += "(Cont1)"
+        retString += "(EQ.skip"+ label + ")"
         return retString
 
     def vm_gt():
         '''Generate Hack Assembly code for a VM gt operation'''
+        label = VMTranslator.newLabel()
         retString = "@SP\n"
         retString += "AM = M-1\n"
         retString += "D = M\n"
         retString += "A = A-1\n"
         retString += "D = M - D\n"
-        retString += "D;JGT True\n"
+        retString += "@GT.true" + label + "\n"
+        retString += "D;JGT\n"
+        retString += "@SP\n"
+        retString += "A = M-1\n"
         retString += "M = 0\n"
-        retString += "0;JMP Cont1\n"
-        retString += "(True)\n"
+        retString += "@GT.skip" + label + "\n"
+        retString += "0;JMP\n"
+        retString += "(GT.true"+ label +")\n"
         retString += "M = -1\n"
-        retString += "(Cont1)"
+        retString += "(GT.skip"+ label + ")"
         return retString
 
     def vm_lt():
         '''Generate Hack Assembly code for a VM lt operation'''
+        label = VMTranslator.newLabel()
         retString = "@SP\n"
         retString += "AM = M-1\n"
         retString += "D = M\n"
         retString += "A = A-1\n"
         retString += "D = M - D\n"
-        retString += "D;JLT True\n"
+        retString += "@LT.true" + label + "\n"
+        retString += "D;JLT\n"
+        retString += "@SP\n"
+        retString += "A = M-1\n"
         retString += "M = 0\n"
-        retString += "0;JMP Cont1\n"
-        retString += "(True)\n"
+        retString += "@LT.skip" + label + "\n"
+        retString += "0;JMP\n"
+        retString += "(LT.true"+ label +")\n"
         retString += "M = -1\n"
-        retString += "(Cont1)"
+        retString += "(LT.skip"+ label + ")"
         return retString
 
     def vm_and():
@@ -206,7 +227,7 @@ class VMTranslator:
             retString += "A=A+1\n"
         retString += "D=A\n"
         retString += "@SP\n"
-        retString += "M=D\n"
+        retString += "M=D"
 
         return retString
 
