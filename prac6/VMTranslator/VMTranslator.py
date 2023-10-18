@@ -32,6 +32,7 @@ class VMTranslator:
         refSeg = reformatSegment(segment, offset)
         retString = ""
         if (segment == "constant" or segment == "static" or segment == "pointer" or segment == "temp"):
+            retString += "@" + refSeg + "\n"
             if segment == "constant":
                 retString += "D = A\n"
             else:
