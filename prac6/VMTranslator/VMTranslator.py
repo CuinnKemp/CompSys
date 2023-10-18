@@ -23,7 +23,7 @@ def reformatSegment(segment, offset):
     if (segment == "constant"):
         return str(offset)
     
-    return ""
+    return segment
 
 class VMTranslator:
     labelCounter = 0
@@ -240,10 +240,18 @@ class VMTranslator:
 
     def vm_call(function_name, n_args):
         '''Generate Hack Assembly code for a VM call operation'''
+        label = VMTranslator.newLabel()
+
         retString = "@SP\n"
         retString += "D=M\n"
         retString += "@R13\n"
         retString += "M=D\n"
+        retString += "@RET."+label+"\n"
+        retString += "D=A\n"
+        retString += "@SP\n"
+        retString += "A=M\n"
+        retString += "M=D\n"
+
         retString += "@SP\n"
         retString += "M=M+1\n"
         retString += "@LCL\n"
@@ -253,7 +261,7 @@ class VMTranslator:
         retString += "M=D\n"
         retString += "@SP\n"
         retString += "M=M+1\n"
-        retString += "@ARG\n"
+        retString += "@THAT\n"
         retString += "D=M\n"
         retString += "@SP\n"
         retString += "A=M\n"
@@ -262,15 +270,75 @@ class VMTranslator:
         retString += "M=M+1\n"
         retString += "@R13\n"
         retString += "D=M\n"
-        retString += "@" + function_name + "\n"
+        retString += "@"+str(n_args)+"\n"
+        retString += "D=D-A\n"
+        retString += "@ARG\n"
+        retString += "M=D\n"
+        retString += "@SP\n"
+        retString += "D=M\n"
+        retString += "@LCL\n"
+        retString += "M=D\n"
+        retString += "@FUNC.defMod." + function_name + "\n"
         retString += "0;JMP\n"
-        retString += "(Ret." + function_name + ")"
+        retString += "(RET."+ label + ")"
 
+        
         return retString
 
     def vm_return():
         '''Generate Hack Assembly code for a VM return operation'''
-        return ""
+        retString = "@LCL\n"
+        retString += "D=M\n"
+        retString += "@5\n"
+        retString += "A=D-A\n"
+        retString += "D=M\n"
+        retString += "@R13\n"
+        retString += "M=D\n"
+
+
+        retString += "@SP\n"
+        retString += "A=M-1\n"
+        retString += "D=M\n"
+        retString += "@ARG\n"
+        retString += "A=M\n"
+        retString += "M=D\n"
+
+
+        retString += "D=A+1\n"
+        retString += "@SP\n"
+        retString += "M=D\n"
+
+
+        retString += "@LCL\n"
+        retString += "AM=M-1\n"
+        retString += "D=M\n"
+        retString += "@THAT\n"
+        retString += "M=D\n"
+
+
+        retString += "@LCL\n"
+        retString += "AM=M-1\n"
+        retString += "D=M\n"
+        retString += "@THIS\n"
+        retString += "M=D\n"
+
+        retString += "@LCL\n"
+        retString += "AM=M-1\n"
+        retString += "D=M\n"
+        retString += "@ARG\n"
+        retString += "M=D\n"
+
+        retString += "@LCL\n"
+        retString += "AM=M-1\n"
+        retString += "D=M\n"
+        retString += "@LCL\n"
+        retString += "M=D\n"
+
+        retString += "@R13\n"
+        retString += "A=M\n"
+        retString += "0;JMP"
+
+        return retString
 
 # A quick-and-dirty parser when run as a standalone script.
 if __name__ == "__main__":
