@@ -246,6 +246,7 @@ class VMTranslator:
         retString += "D=M\n"
         retString += "@R13\n"
         retString += "M=D\n"
+        
         retString += "@RET."+label+"\n"
         retString += "D=A\n"
         retString += "@SP\n"
@@ -254,26 +255,47 @@ class VMTranslator:
 
         retString += "@SP\n"
         retString += "M=M+1\n"
+
         retString += "@LCL\n"
         retString += "D=M\n"
         retString += "@SP\n"
         retString += "A=M\n"
         retString += "M=D\n"
+
         retString += "@SP\n"
         retString += "M=M+1\n"
+
+        retString += "@ARG\n"
+        retString += "D=M\n"
+        retString += "@SP\n"
+        retString += "A=M\n"
+        retString += "M=D\n"
+        
+        retString += "@SP\n"
+        retString += "M=M+1\n"
+
+        retString += "@THIS\n"
+        retString += "D=M\n"
+        retString += "@SP\n"
+        retString += "A=M\n"
+        retString += "M=D\n"
+
         retString += "@THAT\n"
         retString += "D=M\n"
         retString += "@SP\n"
         retString += "A=M\n"
         retString += "M=D\n"
+
         retString += "@SP\n"
         retString += "M=M+1\n"
+
         retString += "@R13\n"
         retString += "D=M\n"
         retString += "@"+str(n_args)+"\n"
         retString += "D=D-A\n"
         retString += "@ARG\n"
         retString += "M=D\n"
+        
         retString += "@SP\n"
         retString += "D=M\n"
         retString += "@LCL\n"
