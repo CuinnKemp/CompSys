@@ -126,6 +126,8 @@ class VMTranslator:
         retString += "@EQ.skip" + label + "\n"
         retString += "0;JMP\n"
         retString += "(EQ.true"+ label +")\n"
+        retString += "@SP\n"
+        retString += "A = M-1\n"
         retString += "M = -1\n"
         retString += "(EQ.skip"+ label + ")"
         return retString
@@ -146,6 +148,8 @@ class VMTranslator:
         retString += "@GT.skip" + label + "\n"
         retString += "0;JMP\n"
         retString += "(GT.true"+ label +")\n"
+        retString += "@SP\n"
+        retString += "A = M-1\n"
         retString += "M = -1\n"
         retString += "(GT.skip"+ label + ")"
         return retString
@@ -166,6 +170,8 @@ class VMTranslator:
         retString += "@LT.skip" + label + "\n"
         retString += "0;JMP\n"
         retString += "(LT.true"+ label +")\n"
+        retString += "@SP\n"
+        retString += "A = M-1\n"
         retString += "M = -1\n"
         retString += "(LT.skip"+ label + ")"
         return retString
