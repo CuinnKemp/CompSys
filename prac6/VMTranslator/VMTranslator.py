@@ -113,23 +113,24 @@ class VMTranslator:
     def vm_eq():
         '''Generate Hack Assembly code for a VM eq operation'''
         label = VMTranslator.newLabel()
+
         retString = "@SP\n"
         retString += "AM = M-1\n"
         retString += "D = M\n"
         retString += "A = A-1\n"
         retString += "D = M - D\n"
-        retString += "@EQ.true" + label + "\n"
+        retString += "@EQ.true_" + label + "\n"
         retString += "D;JEQ\n"
         retString += "@SP\n"
         retString += "A = M-1\n"
         retString += "M = 0\n"
-        retString += "@EQ.skip" + label + "\n"
+        retString += "@EQ.skip_" + label + "\n"
         retString += "0;JMP\n"
-        retString += "(EQ.true"+ label +")\n"
+        retString += "(EQ.true_"+ label +")\n"
         retString += "@SP\n"
         retString += "A = M-1\n"
         retString += "M = -1\n"
-        retString += "(EQ.skip"+ label + ")"
+        retString += "(EQ.skip_"+ label + ")"
         return retString
 
     def vm_gt():
