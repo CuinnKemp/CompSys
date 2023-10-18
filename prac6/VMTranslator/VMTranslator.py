@@ -198,7 +198,7 @@ class VMTranslator:
 
     def vm_function(function_name, n_vars):
         '''Generate Hack Assembly code for a VM function operation'''
-        retString = "(" + function_name + ")\n"
+        retString = "(FUNC.defMod." + function_name + ")\n"
         retString += "@SP\n"
         retString += "A = M\n"
         for i in range(n_vars):
