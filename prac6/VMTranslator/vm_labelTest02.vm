@@ -1,0 +1,9 @@
+push constant 1
+pop static 0
+
+goto test
+
+push constant 1
+pop static 0
+
+label test

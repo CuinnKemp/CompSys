@@ -1,0 +1,4 @@
+push constant 1
+push constant 1
+eq
+pop static 0

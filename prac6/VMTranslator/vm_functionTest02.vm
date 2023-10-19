@@ -1,0 +1,4 @@
+function vm_functionTest02.test2 0
+     push constant 2
+     push constant 5
+     return

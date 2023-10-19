@@ -1,0 +1,20 @@
+call vm_CallTest01.dothing
+call vm_CallTest01.dothing2
+label end
+goto end
+
+
+
+
+
+function vm_CallTest01.dothing 0
+    push constant 1
+    pop static 0
+    return
+
+function vm_callTest02.dothing2 0
+    push static 0
+    push constant 1
+    add
+    pop static 0
+    return
