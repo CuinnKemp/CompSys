@@ -19,14 +19,15 @@ CompilerParser::CompilerParser(std::list<Token*> tokens) {
 ParseTree* CompilerParser::compileProgram() {
     if (have("keyword","class")){
         next();
-        current();
         if(current()->getType() == "identifier"){
             ParseTree* res = compileClass();
             return res;
         } else{
+            // cout << "4" << endl;
             throw ParseException();
         }
     }
+    // cout << "5" << endl;
     throw ParseException();
     return nullptr;
 }
@@ -47,11 +48,13 @@ ParseTree* CompilerParser::compileClass() {
             res->addChild(compileClassVarDec());
         }
     } else{
+        // cout << "6" << endl;
         throw ParseException();
         return NULL;
     }
 
     if (!have("symbol", "}")){
+        // cout << "7" << endl;
         throw ParseException();
         return NULL;
     }
@@ -67,7 +70,6 @@ ParseTree* CompilerParser::compileClass() {
 ParseTree* CompilerParser::compileClassVarDec() {
     ParseTree* res = new ParseTree("classVarDec", "");
     
-    next();
     while (currentItr != tokens.end() && !have("symbol", "}")){
         if (have("keyword", "function")){
             res->addChild(compileSubroutine());
@@ -88,42 +90,39 @@ ParseTree* CompilerParser::compileClassVarDec() {
 ParseTree* CompilerParser::compileSubroutine() {
     ParseTree* res = new ParseTree("subroutine", "");
     res->addChild(new ParseTree("keyword", "function"));
-
     next();
-    if (current()->getType() != "keyword"){
-        throw ParseException();
+    while (currentItr != tokens.end() && !have("symbol", "(")){
+        res->addChild(new ParseTree(current()->getType(), current()->getValue()));
+        next();
     }
-    res->addChild(new ParseTree("keyword", current()->getValue()));
 
-    next();
-    if (current()->getType() != "identifier"){
-        throw ParseException();
-    }
-    res->addChild(new ParseTree("identifier", current()->getValue()));
-
-    next();
     if (!have("symbol", "(")){
+        // cout << "8" << endl;
         throw ParseException();
     }
     res->addChild(new ParseTree("symbol", "("));
     
     next();
-    res->addChild(compileParameterList());
+    if (!have("symbol", ")")){
+        res->addChild(compileParameterList());
+    }
 
     if (!have("symbol", ")")){
+        // cout << "9" << endl;
         throw ParseException();
     }
     res->addChild(new ParseTree("symbol", ")"));
 
     next();
     if (!have("symbol", "{")){
+        // cout << "10" << endl;
         throw ParseException();
         return NULL;
     }
     res->addChild(compileSubroutineBody());
+    
 
-
-    return NULL;
+    return res;
 }
 
 /**
@@ -133,15 +132,6 @@ ParseTree* CompilerParser::compileSubroutine() {
 ParseTree* CompilerParser::compileParameterList() {
     ParseTree* res = new ParseTree("parameterList", "");
     while (currentItr != tokens.end() && !have("symbol", ")")){
-        if (have("keyword", "var")){
-            res->addChild(compileVarDec());
-            if (!have("symbol", ";")){
-                throw ParseException();
-                return NULL;
-            }
-            next();
-            continue;
-        }
         res->addChild(new ParseTree(current()->getType(), current()->getValue()));
         next();
     }
@@ -153,7 +143,8 @@ ParseTree* CompilerParser::compileParameterList() {
  * @return a ParseTree
  */
 ParseTree* CompilerParser::compileSubroutineBody() {
-    ParseTree* res = new ParseTree("symbol", "{");
+    ParseTree* res = new ParseTree("subroutineBody", "");
+    res->addChild(new ParseTree("symbol", "{"));
     while (currentItr != tokens.end() && !have("symbol", "}")){
         next();
         res->addChild(new ParseTree(current()->getType(), current()->getValue()));
@@ -256,6 +247,7 @@ void CompilerParser::next(){
     } else {
         // You've reached the end of the list, and trying to advance is unsafe.
         // You can choose to throw an exception or handle this situation accordingly.
+        // cout << "1" << endl;
         throw ParseException(); // or some other appropriate action
     }
 }
@@ -265,6 +257,7 @@ void CompilerParser::prev(){
     } else {
         // You've reached the end of the list, and trying to advance is unsafe.
         // You can choose to throw an exception or handle this situation accordingly.
+        // cout << "2" << endl;
         throw ParseException(); // or some other appropriate action
     }
 }
@@ -279,6 +272,7 @@ Token* CompilerParser::current(){
     } else {
         // You've reached the end of the list, and trying to access the current token is unsafe.
         // You can choose to throw an exception or handle this situation accordingly.
+        // cout << "2" << endl;
         throw ParseException(); // or some other appropriate action
     }
 }
@@ -301,6 +295,7 @@ bool CompilerParser::have(std::string expectedType, std::string expectedValue){
  */
 Token* CompilerParser::mustBe(std::string expectedType, std::string expectedValue){
     if (!this->have(expectedType, expectedValue)){
+        // cout << "3" << endl;
         throw ParseException();
         return NULL;
     }
