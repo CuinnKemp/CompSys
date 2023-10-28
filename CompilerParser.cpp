@@ -198,7 +198,7 @@ ParseTree* CompilerParser::compileVarDec() {
     res->addChild(new ParseTree("keyword", "var"));
     
     next();
-    if (!have("keyword", "int") && !have("keyword", "int") && !have("keyword", "boolean") && !(current()->getType() == "identifier"))){
+    if (!have("keyword", "int") && !have("keyword", "int") && !have("keyword", "boolean") && !(current()->getType() == "identifier")){
         throw ParseException();
         return NULL;
     }
