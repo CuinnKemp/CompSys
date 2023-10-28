@@ -247,6 +247,7 @@ ParseTree* CompilerParser::compileSubroutineBody() {
         next();
     }
     if (!have("symbol", "}")){
+        cout << "here" << endl;
         throw ParseException();
     }
     res->addChild(new ParseTree(current()->getType(), current()->getValue() ));
@@ -361,7 +362,6 @@ ParseTree* CompilerParser::compileLet() {
         throw ParseException();
     }
     res->addChild(new ParseTree(current()->getType(), current()->getValue() ));
-    next();
 
     return res;
 }
@@ -432,7 +432,6 @@ ParseTree* CompilerParser::compileIf() {
         throw ParseException();
     }
     res->addChild(new ParseTree(current()->getType(), current()->getValue() ));
-    next();
 
     return res;
 }
@@ -479,7 +478,6 @@ ParseTree* CompilerParser::compileWhile() {
         throw ParseException();
     }
     res->addChild(new ParseTree(current()->getType(), current()->getValue() ));
-    next();
 
 
     return res;
@@ -507,7 +505,6 @@ ParseTree* CompilerParser::compileDo() {
         throw ParseException();
     }
     res->addChild(new ParseTree(current()->getType(), current()->getValue() ));
-    next();
 
     return res;
 }
@@ -534,7 +531,6 @@ ParseTree* CompilerParser::compileReturn() {
         throw ParseException();
     }
     res->addChild(new ParseTree(current()->getType(), current()->getValue() ));
-    next();
 
 
     return res;
