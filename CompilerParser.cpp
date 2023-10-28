@@ -20,7 +20,8 @@ ParseTree* CompilerParser::compileProgram() {
     if (have("keyword","class")){
         next();
         
-        if(current()->getType() == "identifier"){
+        // if(current()->getType() == "identifier"){
+        if(have("identifier", "Main") || have("identifier", "main")){
             
             ParseTree* res = compileClass();
             return res;
@@ -183,8 +184,7 @@ ParseTree* CompilerParser::compileSubroutineBody() {
             res->addChild(compileVarDec());
             continue;
         }
-        
-        res->addChild(new ParseTree(current()->getType(), current()->getValue()));
+        res->addChild(compileStatements());
     }
     return res;
 }
@@ -239,11 +239,17 @@ ParseTree* CompilerParser::compileStatements() {
             res->addChild(compileLet());
         } else if (current()->getValue() == "return"){
             res->addChild(compileLet());
+        } else{
+            throw ParseException();
+            return NULL;
         }
+    } else{
+        throw ParseException();
+        return NULL;
     }
 
 
-    return NULL;
+    return res;
 }
 
 /**
