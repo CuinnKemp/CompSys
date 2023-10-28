@@ -432,7 +432,6 @@ ParseTree* CompilerParser::compileIf() {
     
 
     res->addChild(compileStatements());
-    next();
 
     if (!have("symbol", "}")){
         throw ParseException();
