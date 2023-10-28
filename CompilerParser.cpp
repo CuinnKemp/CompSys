@@ -1,4 +1,6 @@
 #include "CompilerParser.h"
+#include <iostream>
+using namespace std;
 
 
 /**
@@ -7,7 +9,7 @@
  */
 CompilerParser::CompilerParser(std::list<Token*> tokens) {
     this->tokens = tokens;
-    this->currentItr = tokens.begin();
+    this->currentItr = this->tokens.begin();
 }
 
 /**
@@ -16,17 +18,16 @@ CompilerParser::CompilerParser(std::list<Token*> tokens) {
  */
 ParseTree* CompilerParser::compileProgram() {
     if (have("keyword","class")){
-        ParseTree* res = new ParseTree("keyword","class");
         next();
-        if(have("identifier","main")){
-            res->addChild(new ParseTree("identifier","main"));
-            res->addChild(compileClass());
+        current();
+        if(current()->getType() == "identifier"){
+            ParseTree* res = compileClass();
             return res;
         } else{
             throw ParseException();
         }
     }
-
+    throw ParseException();
     return nullptr;
 }
 
@@ -236,20 +237,22 @@ ParseTree* CompilerParser::compileExpressionList() {
  * Advance to the next token
  */
 void CompilerParser::next(){
-    if (currentItr == tokens.end()){
-        throw ParseException();
-        return;
+    if (currentItr != tokens.end()) {
+        ++currentItr;
+    } else {
+        // You've reached the end of the list, and trying to advance is unsafe.
+        // You can choose to throw an exception or handle this situation accordingly.
+        throw ParseException(); // or some other appropriate action
     }
-    currentItr++;
-    return;
 }
 void CompilerParser::prev(){
-    if (currentItr == tokens.begin()){
-        throw ParseException();
-        return;
+    if (currentItr != tokens.begin()) {
+        --currentItr;
+    } else {
+        // You've reached the end of the list, and trying to advance is unsafe.
+        // You can choose to throw an exception or handle this situation accordingly.
+        throw ParseException(); // or some other appropriate action
     }
-    currentItr--;
-    return;
 }
 
 /**
@@ -257,7 +260,13 @@ void CompilerParser::prev(){
  * @return the Token
  */
 Token* CompilerParser::current(){
-    return *currentItr;
+    if (currentItr != tokens.end()) {
+        return *currentItr;
+    } else {
+        // You've reached the end of the list, and trying to access the current token is unsafe.
+        // You can choose to throw an exception or handle this situation accordingly.
+        throw ParseException(); // or some other appropriate action
+    }
 }
 
 /**

@@ -9,6 +9,7 @@
 
 class CompilerParser {
     public:
+        int counter = 0;
         std::list<Token*> tokens;
         std::list<Token*>::iterator currentItr;
 
