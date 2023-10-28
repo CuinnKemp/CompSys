@@ -147,6 +147,11 @@ ParseTree* CompilerParser::compileSubroutineBody() {
     res->addChild(new ParseTree("symbol", "{"));
     while (currentItr != tokens.end() && !have("symbol", "}")){
         next();
+        if (have("keyword", "var")){
+            res->addChild(compileVarDec());
+            continue;
+        }
+        
         res->addChild(new ParseTree(current()->getType(), current()->getValue()));
     }
     return res;
@@ -157,7 +162,8 @@ ParseTree* CompilerParser::compileSubroutineBody() {
  * @return a ParseTree
  */
 ParseTree* CompilerParser::compileVarDec() {
-    ParseTree* res = new ParseTree("keyword", "var");
+    ParseTree* res = new ParseTree("varDec", "");
+    res->addChild(new ParseTree("keyword", "var"));
     while (currentItr != tokens.end() && !have("symbol", ";")){
         next();
         res->addChild(new ParseTree(current()->getType(), current()->getValue()));
