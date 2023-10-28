@@ -177,29 +177,27 @@ ParseTree* CompilerParser::compileSubroutine() {
 ParseTree* CompilerParser::compileParameterList() {
     ParseTree* res = new ParseTree("parameterList","");
 
-    if (!have("keyword", "int") && !have("keyword", "char") && !have("keyword", "boolean") && !(current()->getType() == "identifier")){
-            throw ParseException();
-            return NULL;
-        }
-        res->addChild(new ParseTree(current()->getType(), current()->getValue() ));
-        next();
-        
-        
-        if (current()->getType() != "identifier"){
-            throw ParseException();
-            return NULL;
-        }
-        res->addChild(new ParseTree(current()->getType(), current()->getValue() ));
-        next();
-
-        
-        if (!have("symbol", ",") ){
-            return res;
-        }
-
+    if (!have("keyword", "int") && !have("keyword", "char") && !have("keyword", "boolean") && current()->getType() != "identifier"){
+        throw ParseException();
+        return NULL;
+    }
+    res->addChild(new ParseTree(current()->getType(), current()->getValue() ));
+    next();
     
+    
+    if (current()->getType() != "identifier"){
+        throw ParseException();
+        return NULL;
+    }
+    res->addChild(new ParseTree(current()->getType(), current()->getValue() ));
+
+    next();
+    
+    if (!have("symbol", ",")){
+        return res;
+    }
+
     while (currentItr != tokens.end() && !have("symbol", ")")){
-        
         if (!have("keyword", "int") && !have("keyword", "char") && !have("keyword", "boolean") && !(current()->getType() == "identifier")){
             throw ParseException();
             return NULL;
@@ -607,8 +605,12 @@ Token* CompilerParser::current(){
  * @return true if a match, false otherwise
  */
 bool CompilerParser::have(std::string expectedType, std::string expectedValue){
-    if (current()->getType() == expectedType && current()->getValue() == expectedValue){
-        return true;
+    try{
+        if (current()->getType() == expectedType && current()->getValue() == expectedValue){
+            return true;
+        }
+    } catch (...){
+        return false;
     }
     return false;
 }

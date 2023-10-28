@@ -48,22 +48,26 @@ int main(int argc, char *argv[]) {
     // tokens.push_back(new Token("symbol", "}"));
     // tokens.push_back(new Token("symbol", "}"));
 
-    tokens.push_back(new Token("keyword", "class"));
-    tokens.push_back(new Token("keyword", "Main"));
-    tokens.push_back(new Token("symbol", "{"));
-    tokens.push_back(new Token("keyword", "constructor"));
-    tokens.push_back(new Token("identifier", "Test"));
-    tokens.push_back(new Token("identifier", "new"));
-    tokens.push_back(new Token("symbol", "("));
-    tokens.push_back(new Token("symbol", ")"));
-    tokens.push_back(new Token("symbol", "{"));
-    tokens.push_back(new Token("symbol", "}"));
-    tokens.push_back(new Token("symbol", "}"));
+    // tokens.push_back(new Token("keyword", "class"));
+    // tokens.push_back(new Token("keyword", "Main"));
+    // tokens.push_back(new Token("symbol", "{"));
+    // tokens.push_back(new Token("keyword", "constructor"));
+    // tokens.push_back(new Token("identifier", "Test"));
+    // tokens.push_back(new Token("identifier", "new"));
+    // tokens.push_back(new Token("symbol", "("));
+    // tokens.push_back(new Token("symbol", ")"));
+    // tokens.push_back(new Token("symbol", "{"));
+    // tokens.push_back(new Token("symbol", "}"));
+    // tokens.push_back(new Token("symbol", "}"));
+
+    tokens.push_back(new Token("keyword", "boolean"));
+    tokens.push_back(new Token("identifier", "a"));
 
 
     try {
         CompilerParser parser(tokens);
-        ParseTree* result = parser.compileProgram();
+        // ParseTree* result = parser.compileProgram();
+        ParseTree* result = parser.compileParameterList();
         if (result != NULL){
             cout << result->tostring() << endl;
         }
