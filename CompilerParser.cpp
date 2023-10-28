@@ -201,7 +201,6 @@ ParseTree* CompilerParser::compileParameterList() {
 
     while (currentItr != tokens.end() && !have("symbol", ")")){
         if (!have("keyword", "int") && !have("keyword", "char") && !have("keyword", "boolean") && current()->getType() != "identifier"){
-            cout << "here" << endl;
             throw ParseException();
             return NULL;
         }
@@ -247,7 +246,6 @@ ParseTree* CompilerParser::compileSubroutineBody() {
         next();
     }
     if (!have("symbol", "}")){
-        cout << "here" << endl;
         throw ParseException();
     }
     res->addChild(new ParseTree(current()->getType(), current()->getValue() ));
@@ -304,25 +302,27 @@ ParseTree* CompilerParser::compileVarDec() {
  */
 ParseTree* CompilerParser::compileStatements() {
     ParseTree* res = new ParseTree("statements","");
-
-    if (current()->getType() == "keyword"){
-        if (current()->getValue() == "let"){
-            res->addChild(compileLet());
-        } else if (current()->getValue() == "if"){
-            res->addChild(compileLet());
-        } else if (current()->getValue() == "while"){
-            res->addChild(compileLet());
-        } else if (current()->getValue() == "do"){
-            res->addChild(compileLet());
-        } else if (current()->getValue() == "return"){
-            res->addChild(compileLet());
-        } else{
-            throw ParseException();
-            return NULL;
+    
+    while (have("keyword", "let") || have("keyword", "if") || have("keyword", "while") || have("keyword", "do") || have("keyword", "return")){
+        if (current()->getType() == "keyword"){
+            if (current()->getValue() == "let"){
+                cout << "let" << endl;
+                res->addChild(compileLet());
+            } else if (current()->getValue() == "if"){
+                res->addChild(compileIf());
+            } else if (current()->getValue() == "while"){
+                res->addChild(compileWhile());
+            } else if (current()->getValue() == "do"){
+                cout << "do" << endl;
+                res->addChild(compileDo());
+            } else if (current()->getValue() == "return"){
+                res->addChild(compileReturn());
+            } else{
+                throw ParseException();
+                return NULL;
+            }
+            next();
         }
-    } else{
-        throw ParseException();
-        return NULL;
     }
 
 
@@ -495,6 +495,7 @@ ParseTree* CompilerParser::compileDo() {
     }
     res->addChild(new ParseTree(current()->getType(), current()->getValue() ));
     next();
+    cout << "here" << endl;
 
     if (!have("keyword", "skip")){
         res->addChild(compileExpression());

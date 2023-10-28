@@ -73,19 +73,21 @@ int main(int argc, char *argv[]) {
     // tokens.push_back(new Token("identifier", "test"));
     // tokens.push_back(new Token("identifier", "d"));
 
-    tokens.push_back(new Token("symbol", "{"));
     tokens.push_back(new Token("keyword", "let"));
     tokens.push_back(new Token("identifier", "a"));
     tokens.push_back(new Token("symbol", "="));
     tokens.push_back(new Token("keyword", "skip"));
     tokens.push_back(new Token("symbol", ";"));
-    tokens.push_back(new Token("symbol", "}"));
+    tokens.push_back(new Token("keyword", "do"));
+    tokens.push_back(new Token("keyword", "skip"));
+    tokens.push_back(new Token("symbol", ";"));
+
     
 
     try {
         CompilerParser parser(tokens);
         // ParseTree* result = parser.compileProgram();
-        ParseTree* result = parser.compileSubroutineBody();
+        ParseTree* result = parser.compileStatements();
         if (result != NULL){
             cout << result->tostring() << endl;
         }
