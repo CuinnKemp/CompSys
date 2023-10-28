@@ -347,11 +347,8 @@ ParseTree* CompilerParser::compileLet() {
     if (have("symbol", "[")){
         res->addChild(new ParseTree(current()->getType(), current()->getValue()));
         next();
-        if (!have("keyword", "skip")){
-            res->addChild(compileExpression());
-        } else{
-            res->addChild(new ParseTree(current()->getType(), current()->getValue()));
-        }
+
+        res->addChild(compileExpression());
         next();
         if (!have("symbol", "]")){
             throw ParseException();
@@ -367,11 +364,7 @@ ParseTree* CompilerParser::compileLet() {
     res->addChild(new ParseTree(current()->getType(), current()->getValue() ));
     next();
 
-    if (!have("keyword", "skip")){
-        res->addChild(compileExpression());
-    } else{
-        res->addChild(new ParseTree(current()->getType(), current()->getValue()));
-    }
+    res->addChild(compileExpression());
     next();
     
     if (!have("symbol", ";")){
@@ -400,11 +393,7 @@ ParseTree* CompilerParser::compileIf() {
     res->addChild(new ParseTree(current()->getType(), current()->getValue() ));
     next();
 
-    if (!have("keyword", "skip")){
-        res->addChild(compileExpression());
-    } else{
-        res->addChild(new ParseTree(current()->getType(), current()->getValue()));
-    }
+    res->addChild(compileExpression());
     next();
 
 
@@ -472,11 +461,7 @@ ParseTree* CompilerParser::compileWhile() {
     res->addChild(new ParseTree(current()->getType(), current()->getValue() ));
     next();
 
-    if (!have("keyword", "skip")){
-        res->addChild(compileExpression());
-    } else{
-        res->addChild(new ParseTree(current()->getType(), current()->getValue()));
-    }
+    res->addChild(compileExpression());
     next();
 
     if (!have("symbol", ")")){
@@ -516,11 +501,7 @@ ParseTree* CompilerParser::compileDo() {
     res->addChild(new ParseTree(current()->getType(), current()->getValue() ));
     next();
 
-    if (!have("keyword", "skip")){
-        res->addChild(compileExpression());
-    } else{
-        res->addChild(new ParseTree(current()->getType(), current()->getValue()));
-    }
+    res->addChild(compileExpression());
     next();
     
     if (!have("symbol", ";")){
@@ -544,11 +525,7 @@ ParseTree* CompilerParser::compileReturn() {
     res->addChild(new ParseTree(current()->getType(), current()->getValue() ));
     next();
 
-    if (!have("keyword", "skip")){
-        res->addChild(compileExpression());
-    } else{
-        res->addChild(new ParseTree(current()->getType(), current()->getValue()));
-    }
+    res->addChild(compileExpression());
     next();
     
     if (!have("symbol", ";")){
@@ -565,6 +542,11 @@ ParseTree* CompilerParser::compileReturn() {
  * @return a ParseTree
  */
 ParseTree* CompilerParser::compileExpression() {
+    ParseTree* res = new ParseTree("expression", "");
+    if (have("keyword", "skip")){
+        res->addChild(new ParseTree(current()->getType(), current()->getValue() ));
+        return res;
+    }
     return NULL;
 }
 
