@@ -40,7 +40,7 @@ ParseTree* CompilerParser::compileProgram() {
  */
 ParseTree* CompilerParser::compileClass() {
     
-    ParseTree* res = new ParseTree("class");
+    ParseTree* res = new ParseTree("class","");
     res->addChild(new ParseTree(current()->getType(), current()->getValue() ));
     next();
     res->addChild(new ParseTree(current()->getType(), current()->getValue() ));
@@ -83,7 +83,7 @@ ParseTree* CompilerParser::compileClass() {
  * @return a ParseTree
  */
 ParseTree* CompilerParser::compileClassVarDec() {
-    ParseTree* res = new ParseTree("classVarDec");
+    ParseTree* res = new ParseTree("classVarDec","");
     res->addChild(new ParseTree(current()->getType(), current()->getValue() ));
 
     next();
@@ -128,7 +128,7 @@ ParseTree* CompilerParser::compileClassVarDec() {
  */
 ParseTree* CompilerParser::compileSubroutine() {
     
-    ParseTree* res = new ParseTree("subroutine");
+    ParseTree* res = new ParseTree("subroutine","");
     res->addChild(new ParseTree(current()->getType(), current()->getValue() ));
     next();
     if (current()->getType() != "keyword"){
@@ -175,7 +175,7 @@ ParseTree* CompilerParser::compileSubroutine() {
  */
 ParseTree* CompilerParser::compileParameterList() {
     
-    ParseTree* res = new ParseTree("parameterList");
+    ParseTree* res = new ParseTree("parameterList","");
     
     while (currentItr != tokens.end() && !have("symbol", ")")){
         
@@ -214,7 +214,7 @@ ParseTree* CompilerParser::compileParameterList() {
  * @return a ParseTree
  */
 ParseTree* CompilerParser::compileSubroutineBody() {
-    ParseTree* res = new ParseTree("subroutineBody");
+    ParseTree* res = new ParseTree("subroutineBody","");
     res->addChild(new ParseTree(current()->getType(), current()->getValue() ));
     next();
     while (currentItr != tokens.end() && !have("symbol", "}")){
@@ -238,7 +238,7 @@ ParseTree* CompilerParser::compileSubroutineBody() {
  * @return a ParseTree
  */
 ParseTree* CompilerParser::compileVarDec() {
-    ParseTree* res = new ParseTree("varDec");
+    ParseTree* res = new ParseTree("varDec","");
     res->addChild(new ParseTree(current()->getType(), current()->getValue() ));
     
     next();
@@ -282,7 +282,7 @@ ParseTree* CompilerParser::compileVarDec() {
  * @return a ParseTree
  */
 ParseTree* CompilerParser::compileStatements() {
-    ParseTree* res = new ParseTree("statements");
+    ParseTree* res = new ParseTree("statements","");
 
     if (current()->getType() == "keyword"){
         if (current()->getValue() == "let"){
@@ -313,7 +313,7 @@ ParseTree* CompilerParser::compileStatements() {
  * @return a ParseTree
  */
 ParseTree* CompilerParser::compileLet() {
-    ParseTree* res = new ParseTree("letStatement");
+    ParseTree* res = new ParseTree("letStatement","");
     if (!have("keyword", "let")){
         throw ParseException();
     }
@@ -351,7 +351,7 @@ ParseTree* CompilerParser::compileLet() {
  * @return a ParseTree
  */
 ParseTree* CompilerParser::compileIf() {
-    ParseTree* res = new ParseTree("ifStatement");
+    ParseTree* res = new ParseTree("ifStatement","");
     if (!have("keyword", "if")){
         throw ParseException();
     }
@@ -422,7 +422,7 @@ ParseTree* CompilerParser::compileIf() {
  * @return a ParseTree
  */
 ParseTree* CompilerParser::compileWhile() {
-    ParseTree* res = new ParseTree("whileStatement");
+    ParseTree* res = new ParseTree("whileStatement","");
     if (!have("keyword", "while")){
         throw ParseException();
     }
@@ -470,7 +470,7 @@ ParseTree* CompilerParser::compileWhile() {
  * @return a ParseTree
  */
 ParseTree* CompilerParser::compileDo() {
-    ParseTree* res = new ParseTree("doStatement");
+    ParseTree* res = new ParseTree("doStatement","");
 
     if (!have("keyword", "do")){
         throw ParseException();
@@ -497,7 +497,7 @@ ParseTree* CompilerParser::compileDo() {
  * @return a ParseTree
  */
 ParseTree* CompilerParser::compileReturn() {
-    ParseTree* res = new ParseTree("returnStatement");
+    ParseTree* res = new ParseTree("returnStatement","");
 
     if (!have("keyword", "return")){
         throw ParseException();

@@ -9,10 +9,6 @@ using namespace std;
  * @param value The node's value. This should only be present on terminal nodes/leaves, and empty otherwise.
  */
 
-ParseTree::ParseTree(string type) {
-    ParseTree::type = type;
-    ParseTree::value = "";
-}
 ParseTree::ParseTree(string type, string value) {
     ParseTree::type = type;
     ParseTree::value = value;

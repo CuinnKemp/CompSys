@@ -11,7 +11,6 @@ class ParseTree {
         std::list<ParseTree*> children;
 
     public:
-        ParseTree(std::string type);
         ParseTree(std::string type, std::string value);
 
         void addChild(ParseTree* child);
