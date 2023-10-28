@@ -19,7 +19,9 @@ CompilerParser::CompilerParser(std::list<Token*> tokens) {
 ParseTree* CompilerParser::compileProgram() {
     if (have("keyword","class")){
         next();
+        
         if(current()->getType() == "identifier"){
+            
             ParseTree* res = compileClass();
             return res;
         } else{
@@ -37,16 +39,24 @@ ParseTree* CompilerParser::compileProgram() {
  * @return a ParseTree
  */
 ParseTree* CompilerParser::compileClass() {
+    
     ParseTree* res = new ParseTree("class", "");
     res->addChild(new ParseTree("keyword", "class"));
     res->addChild(new ParseTree("identifier",  current()->getValue()));
     next();
+    
     if (!have("symbol", "{")){
         throw ParseException();
         return NULL;
     }
+    
     res->addChild(new ParseTree("symbol", "{"));
     next();
+    if (have("symbol", "}")){
+        res->addChild(new ParseTree("symbol", "}"));
+        return res;
+    }
+    
 
     while (currentItr != tokens.end() && !have("symbol", "}")){
         if (have("keyword", "function") || have("keyword", "method") || have("keyword", "constructor")){
@@ -79,7 +89,7 @@ ParseTree* CompilerParser::compileClass() {
  */
 ParseTree* CompilerParser::compileClassVarDec() {
     ParseTree* res = new ParseTree("classVarDec", "");
-    res->addChild(new ParseTree("keyword", "var"));
+    res->addChild(new ParseTree("keyword", current()->getValue()));
     while (currentItr != tokens.end() && !have("symbol", ";")){
         next();
         res->addChild(new ParseTree(current()->getType(), current()->getValue()));
@@ -94,7 +104,7 @@ ParseTree* CompilerParser::compileClassVarDec() {
  */
 ParseTree* CompilerParser::compileSubroutine() {
     ParseTree* res = new ParseTree("subroutine", "");
-    res->addChild(new ParseTree("keyword", "function"));
+    res->addChild(new ParseTree("keyword", current()->getValue()));
     next();
     while (currentItr != tokens.end() && !have("symbol", "(")){
         res->addChild(new ParseTree(current()->getType(), current()->getValue()));
