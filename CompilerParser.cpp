@@ -49,11 +49,14 @@ ParseTree* CompilerParser::compileClass() {
     next();
 
     while (currentItr != tokens.end() && !have("symbol", "}")){
-        if (have("keyword", "function")){
+        if (have("keyword", "function") || have("keyword", "method") || have("keyword", "constructor")){
             res->addChild(compileSubroutine());
 
-        } else {
+        } else if (have("keyword", "static") || have("keyword", "field")){
             res->addChild(compileClassVarDec());
+        } else{
+            throw ParseException();
+            return NULL;
         }
 
         next();
