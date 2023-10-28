@@ -46,12 +46,13 @@ ParseTree* CompilerParser::compileClass() {
         return NULL;
     }
     res->addChild(new ParseTree("symbol", "{"));
+    next();
 
     while (currentItr != tokens.end() && !have("symbol", "}")){
         if (have("keyword", "function")){
             res->addChild(compileSubroutine());
 
-        } else if (have("keyword", "var")){
+        } else {
             res->addChild(compileClassVarDec());
         }
 
