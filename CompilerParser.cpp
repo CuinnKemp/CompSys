@@ -21,7 +21,7 @@ ParseTree* CompilerParser::compileProgram() {
         next();
         
         if(current()->getType() == "identifier" || current()->getValue() == "Main" || current()->getValue() == "main"){
-            
+            prev();
             ParseTree* res = compileClass();
             return res;
         } else{
@@ -40,16 +40,17 @@ ParseTree* CompilerParser::compileProgram() {
  */
 ParseTree* CompilerParser::compileClass() {
     
-    ParseTree* res = new ParseTree("class", "");
-    res->addChild(new ParseTree("keyword", "class"));
-    res->addChild(new ParseTree(current()->getType(),  current()->getValue()));
+    ParseTree* res = new ParseTree("class");
+    res->addChild(new ParseTree(current()->getType(), current()->getValue() ));
+    next();
+    res->addChild(new ParseTree(current()->getType(), current()->getValue() ));
     next();
     
     if (!have("symbol", "{")){
         throw ParseException();
         return NULL;
     }
-    res->addChild(new ParseTree("symbol", "{"));
+    res->addChild(new ParseTree(current()->getType(), current()->getValue() ));
 
     next();
     while (currentItr != tokens.end() && !have("symbol", "}")){
@@ -59,7 +60,7 @@ ParseTree* CompilerParser::compileClass() {
         } else if (have("keyword", "static") || have("keyword", "field")){
             res->addChild(compileClassVarDec());
         } else {
-            // res->addChild(new ParseTree(current()->getType(), current()->getValue()));
+            // res->addChild(new ParseTree(current()->getType(), current()->getValue() ));
             throw ParseException();
         }
 
@@ -72,7 +73,7 @@ ParseTree* CompilerParser::compileClass() {
         throw ParseException();
         return NULL;
     }
-    res->addChild(new ParseTree("symbol", "}"));
+    res->addChild(new ParseTree(current()->getType(), current()->getValue() ));
     
     return res;
 }
@@ -82,33 +83,33 @@ ParseTree* CompilerParser::compileClass() {
  * @return a ParseTree
  */
 ParseTree* CompilerParser::compileClassVarDec() {
-    ParseTree* res = new ParseTree("classVarDec", "");
-    res->addChild(new ParseTree("keyword", current()->getValue()));
+    ParseTree* res = new ParseTree("classVarDec");
+    res->addChild(new ParseTree(current()->getType(), current()->getValue() ));
 
     next();
     if (!have("keyword", "int") && !have("keyword", "int") && !have("keyword", "boolean") && !(current()->getType() == "identifier")){
         throw ParseException();
         return NULL;
     }
-    res->addChild(new ParseTree(current()->getType(), current()->getValue()));
+    res->addChild(new ParseTree(current()->getType(), current()->getValue() ));
 
     next();
     if (!(current()->getType() == "identifier")){
         throw ParseException();
         return NULL;
     }
-    res->addChild(new ParseTree(current()->getType(), current()->getValue()));
+    res->addChild(new ParseTree(current()->getType(), current()->getValue() ));
 
     next();
 
     while (currentItr != tokens.end() && have("symbol", ",")){
-        res->addChild(new ParseTree(current()->getType(), current()->getValue()));
+        res->addChild(new ParseTree(current()->getType(), current()->getValue() ));
         next();
         if (!(current()->getType() == "identifier")){
             throw ParseException();
             return NULL;
         }
-        res->addChild(new ParseTree(current()->getType(), current()->getValue()));
+        res->addChild(new ParseTree(current()->getType(), current()->getValue() ));
         next();
     }
 
@@ -116,7 +117,7 @@ ParseTree* CompilerParser::compileClassVarDec() {
         throw ParseException();
         return NULL;
     }
-    res->addChild(new ParseTree(current()->getType(), current()->getValue()));
+    res->addChild(new ParseTree(current()->getType(), current()->getValue() ));
 
     return res;
 }
@@ -127,19 +128,19 @@ ParseTree* CompilerParser::compileClassVarDec() {
  */
 ParseTree* CompilerParser::compileSubroutine() {
     
-    ParseTree* res = new ParseTree("subroutine", "");
-    res->addChild(new ParseTree("keyword", current()->getValue()));
+    ParseTree* res = new ParseTree("subroutine");
+    res->addChild(new ParseTree(current()->getType(), current()->getValue() ));
     next();
     if (current()->getType() != "keyword"){
         throw ParseException();
     }
-    res->addChild(new ParseTree("keyword", current()->getValue()));
+    res->addChild(new ParseTree(current()->getType(), current()->getValue() ));
     
     next();
     if (current()->getType() != "identifier"){
         throw ParseException();
     }
-    res->addChild(new ParseTree("identifier", current()->getValue()));
+    res->addChild(new ParseTree(current()->getType(), current()->getValue() ));
     next();
 
     
@@ -147,7 +148,7 @@ ParseTree* CompilerParser::compileSubroutine() {
         // cout << "8" << endl;
         throw ParseException();
     }
-    res->addChild(new ParseTree("symbol", "("));
+    res->addChild(new ParseTree(current()->getType(), current()->getValue() ));
     
     next();
     res->addChild(compileParameterList());
@@ -155,7 +156,7 @@ ParseTree* CompilerParser::compileSubroutine() {
     if (!have("symbol", ")")){
         throw ParseException();
     }
-    res->addChild(new ParseTree("symbol", ")"));
+    res->addChild(new ParseTree(current()->getType(), current()->getValue() ));
 
     
     next();
@@ -174,7 +175,7 @@ ParseTree* CompilerParser::compileSubroutine() {
  */
 ParseTree* CompilerParser::compileParameterList() {
     
-    ParseTree* res = new ParseTree("parameterList", "");
+    ParseTree* res = new ParseTree("parameterList");
     
     while (currentItr != tokens.end() && !have("symbol", ")")){
         
@@ -182,7 +183,7 @@ ParseTree* CompilerParser::compileParameterList() {
             throw ParseException();
             return NULL;
         }
-        res->addChild(new ParseTree(current()->getType(), current()->getValue()));
+        res->addChild(new ParseTree(current()->getType(), current()->getValue() ));
         next();
         
         
@@ -190,12 +191,12 @@ ParseTree* CompilerParser::compileParameterList() {
             throw ParseException();
             return NULL;
         }
-        res->addChild(new ParseTree(current()->getType(), current()->getValue()));
+        res->addChild(new ParseTree(current()->getType(), current()->getValue() ));
         next();
 
         
         if (have("symbol", ",") ){
-            res->addChild(new ParseTree(current()->getType(), current()->getValue()));
+            res->addChild(new ParseTree(current()->getType(), current()->getValue() ));
             next();
             if (have("symbol", ")")){
                 throw ParseException();
@@ -213,8 +214,8 @@ ParseTree* CompilerParser::compileParameterList() {
  * @return a ParseTree
  */
 ParseTree* CompilerParser::compileSubroutineBody() {
-    ParseTree* res = new ParseTree("subroutineBody", "");
-    res->addChild(new ParseTree("symbol", "{"));
+    ParseTree* res = new ParseTree("subroutineBody");
+    res->addChild(new ParseTree(current()->getType(), current()->getValue() ));
     next();
     while (currentItr != tokens.end() && !have("symbol", "}")){
         if (have("keyword", "var")){
@@ -228,7 +229,7 @@ ParseTree* CompilerParser::compileSubroutineBody() {
     if (!have("symbol", "}")){
         throw ParseException();
     }
-    res->addChild(new ParseTree("symbol", "}"));
+    res->addChild(new ParseTree(current()->getType(), current()->getValue() ));
     return res;
 }
 
@@ -237,33 +238,33 @@ ParseTree* CompilerParser::compileSubroutineBody() {
  * @return a ParseTree
  */
 ParseTree* CompilerParser::compileVarDec() {
-    ParseTree* res = new ParseTree("varDec", "");
-    res->addChild(new ParseTree("keyword", "var"));
+    ParseTree* res = new ParseTree("varDec");
+    res->addChild(new ParseTree(current()->getType(), current()->getValue() ));
     
     next();
     if (!have("keyword", "int") && !have("keyword", "int") && !have("keyword", "boolean") && current()->getType() != "identifier"){
         throw ParseException();
         return NULL;
     }
-    res->addChild(new ParseTree(current()->getType(), current()->getValue()));
+    res->addChild(new ParseTree(current()->getType(), current()->getValue() ));
 
     next();
     if (!(current()->getType() == "identifier")){
         throw ParseException();
         return NULL;
     }
-    res->addChild(new ParseTree(current()->getType(), current()->getValue()));
+    res->addChild(new ParseTree(current()->getType(), current()->getValue() ));
 
     next();
 
     while (currentItr != tokens.end() && have("symbol", ",")){
-        res->addChild(new ParseTree(current()->getType(), current()->getValue()));
+        res->addChild(new ParseTree(current()->getType(), current()->getValue() ));
         next();
         if (!(current()->getType() == "identifier")){
             throw ParseException();
             return NULL;
         }
-        res->addChild(new ParseTree(current()->getType(), current()->getValue()));
+        res->addChild(new ParseTree(current()->getType(), current()->getValue() ));
         next();
     }
 
@@ -271,7 +272,7 @@ ParseTree* CompilerParser::compileVarDec() {
         throw ParseException();
         return NULL;
     }
-    res->addChild(new ParseTree(current()->getType(), current()->getValue()));
+    res->addChild(new ParseTree(current()->getType(), current()->getValue() ));
 
     return res;
 }
@@ -281,7 +282,7 @@ ParseTree* CompilerParser::compileVarDec() {
  * @return a ParseTree
  */
 ParseTree* CompilerParser::compileStatements() {
-    ParseTree* res = new ParseTree("statements", "");
+    ParseTree* res = new ParseTree("statements");
 
     if (current()->getType() == "keyword"){
         if (current()->getValue() == "let"){
@@ -312,23 +313,23 @@ ParseTree* CompilerParser::compileStatements() {
  * @return a ParseTree
  */
 ParseTree* CompilerParser::compileLet() {
-    ParseTree* res = new ParseTree("letStatement", "");
+    ParseTree* res = new ParseTree("letStatement");
     if (!have("keyword", "let")){
         throw ParseException();
     }
-    res->addChild(new ParseTree("keyword", "let"));
+    res->addChild(new ParseTree(current()->getType(), current()->getValue() ));
     next();
 
     if (current()->getType() != "identifier"){
         throw ParseException();
     }
-    res->addChild(new ParseTree("identifier", current()->getValue()));
+    res->addChild(new ParseTree(current()->getType(), current()->getValue() ));
     next();
 
     if (!have("symbol", "=")){
         throw ParseException();
     }
-    res->addChild(new ParseTree("symbol", "="));
+    res->addChild(new ParseTree(current()->getType(), current()->getValue() ));
     next();
 
     if (!have("keyword", "skip")){
@@ -339,7 +340,7 @@ ParseTree* CompilerParser::compileLet() {
     if (!have("symbol", ";")){
         throw ParseException();
     }
-    res->addChild(new ParseTree("symbol", ";"));
+    res->addChild(new ParseTree(current()->getType(), current()->getValue() ));
     next();
 
     return res;
@@ -350,17 +351,17 @@ ParseTree* CompilerParser::compileLet() {
  * @return a ParseTree
  */
 ParseTree* CompilerParser::compileIf() {
-    ParseTree* res = new ParseTree("ifStatement", "");
+    ParseTree* res = new ParseTree("ifStatement");
     if (!have("keyword", "if")){
         throw ParseException();
     }
-    res->addChild(new ParseTree("keyword", "if"));
+    res->addChild(new ParseTree(current()->getType(), current()->getValue() ));
     next();
 
     if (!have("symbol", "(")){
         throw ParseException();
     }
-    res->addChild(new ParseTree("symbol", "("));
+    res->addChild(new ParseTree(current()->getType(), current()->getValue() ));
     next();
 
     if (!have("keyword", "skip")){
@@ -372,13 +373,13 @@ ParseTree* CompilerParser::compileIf() {
     if (!have("symbol", ")")){
         throw ParseException();
     }
-    res->addChild(new ParseTree("symbol", ")"));
+    res->addChild(new ParseTree(current()->getType(), current()->getValue() ));
     next();
 
     if (!have("symbol", "{")){
         throw ParseException();
     }
-    res->addChild(new ParseTree("symbol", "{"));
+    res->addChild(new ParseTree(current()->getType(), current()->getValue() ));
     next();
 
     res->addChild(compileStatements());
@@ -387,19 +388,19 @@ ParseTree* CompilerParser::compileIf() {
     if (!have("symbol", "}")){
         throw ParseException();
     }
-    res->addChild(new ParseTree("symbol", "}"));
+    res->addChild(new ParseTree(current()->getType(), current()->getValue() ));
     next();
 
     if (!have("keyword", "else")){
         throw ParseException();
     }
-    res->addChild(new ParseTree("keyword", "else"));
+    res->addChild(new ParseTree(current()->getType(), current()->getValue() ));
     next();
 
     if (!have("symbol", "{")){
         throw ParseException();
     }
-    res->addChild(new ParseTree("symbol", "{"));
+    res->addChild(new ParseTree(current()->getType(), current()->getValue() ));
     next();
         
     
@@ -410,7 +411,7 @@ ParseTree* CompilerParser::compileIf() {
     if (!have("symbol", "}")){
         throw ParseException();
     }
-    res->addChild(new ParseTree("symbol", "}"));
+    res->addChild(new ParseTree(current()->getType(), current()->getValue() ));
     next();
 
     return res;
@@ -421,17 +422,17 @@ ParseTree* CompilerParser::compileIf() {
  * @return a ParseTree
  */
 ParseTree* CompilerParser::compileWhile() {
-    ParseTree* res = new ParseTree("whileStatement", "");
+    ParseTree* res = new ParseTree("whileStatement");
     if (!have("keyword", "while")){
         throw ParseException();
     }
-    res->addChild(new ParseTree("keyword", "while"));
+    res->addChild(new ParseTree(current()->getType(), current()->getValue() ));
     next();
 
     if (!have("symbol", "(")){
         throw ParseException();
     }
-    res->addChild(new ParseTree("symbol", "("));
+    res->addChild(new ParseTree(current()->getType(), current()->getValue() ));
     next();
 
     if (!have("keyword", "skip")){
@@ -442,13 +443,13 @@ ParseTree* CompilerParser::compileWhile() {
     if (!have("symbol", ")")){
         throw ParseException();
     }
-    res->addChild(new ParseTree("symbol", ")"));
+    res->addChild(new ParseTree(current()->getType(), current()->getValue() ));
     next();
 
     if (!have("symbol", "{")){
         throw ParseException();
     }
-    res->addChild(new ParseTree("symbol", "{"));
+    res->addChild(new ParseTree(current()->getType(), current()->getValue() ));
     next();
 
     res->addChild(compileStatements());
@@ -457,7 +458,7 @@ ParseTree* CompilerParser::compileWhile() {
     if (!have("symbol", "}")){
         throw ParseException();
     }
-    res->addChild(new ParseTree("symbol", "}"));
+    res->addChild(new ParseTree(current()->getType(), current()->getValue() ));
     next();
 
 
@@ -469,12 +470,12 @@ ParseTree* CompilerParser::compileWhile() {
  * @return a ParseTree
  */
 ParseTree* CompilerParser::compileDo() {
-    ParseTree* res = new ParseTree("doStatement", "");
+    ParseTree* res = new ParseTree("doStatement");
 
     if (!have("keyword", "do")){
         throw ParseException();
     }
-    res->addChild(new ParseTree("keyword", "do"));
+    res->addChild(new ParseTree(current()->getType(), current()->getValue() ));
     next();
 
     if (!have("keyword", "skip")){
@@ -485,7 +486,7 @@ ParseTree* CompilerParser::compileDo() {
     if (!have("symbol", ";")){
         throw ParseException();
     }
-    res->addChild(new ParseTree("symbol", ";"));
+    res->addChild(new ParseTree(current()->getType(), current()->getValue() ));
     next();
 
     return res;
@@ -496,12 +497,12 @@ ParseTree* CompilerParser::compileDo() {
  * @return a ParseTree
  */
 ParseTree* CompilerParser::compileReturn() {
-    ParseTree* res = new ParseTree("returnStatement", "");
+    ParseTree* res = new ParseTree("returnStatement");
 
     if (!have("keyword", "return")){
         throw ParseException();
     }
-    res->addChild(new ParseTree("keyword", "return"));
+    res->addChild(new ParseTree(current()->getType(), current()->getValue() ));
     next();
 
     if (!have("keyword", "skip")){
@@ -512,7 +513,7 @@ ParseTree* CompilerParser::compileReturn() {
     if (!have("symbol", ";")){
         throw ParseException();
     }
-    res->addChild(new ParseTree("symbol", ";"));
+    res->addChild(new ParseTree(current()->getType(), current()->getValue() ));
     next();
 
 
