@@ -1,4 +1,0 @@
-push constant 3
-push constant 1
-sub
-pop static 0

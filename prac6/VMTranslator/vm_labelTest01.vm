@@ -1,9 +1,0 @@
-push constant 1
-pop static 0
-
-label test
-push constant 1
-push static 0
-add
-pop static 0
-goto test

@@ -1,4 +1,0 @@
-push constant 0
-push constant 2
-gt
-pop static 0

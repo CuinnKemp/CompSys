@@ -1,4 +1,0 @@
-push constant 32
-push constant -1
-and
-pop static 0

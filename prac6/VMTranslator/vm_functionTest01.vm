@@ -1,4 +1,0 @@
-function vm_functionTest01.testfunc 0
-     push constant 100
-     pop static 0
-     return
