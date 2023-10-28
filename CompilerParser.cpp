@@ -20,8 +20,8 @@ ParseTree* CompilerParser::compileProgram() {
     if (have("keyword","class")){
         next();
         
-        // if(current()->getType() == "identifier"){
-        if(have("identifier", "Main") || have("identifier", "main")){
+        if(current()->getType() == "identifier"){
+        // if(have("identifier", "Main") || have("identifier", "main")){
             
             ParseTree* res = compileClass();
             return res;
