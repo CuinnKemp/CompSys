@@ -90,10 +90,27 @@ ParseTree* CompilerParser::compileClass() {
 ParseTree* CompilerParser::compileClassVarDec() {
     ParseTree* res = new ParseTree("classVarDec", "");
     res->addChild(new ParseTree("keyword", current()->getValue()));
-    while (currentItr != tokens.end() && !have("symbol", ";")){
-        next();
-        res->addChild(new ParseTree(current()->getType(), current()->getValue()));
+    
+    next();
+    if (!have("keyword", "int") && !have("keyword", "int") && !have("keyword", "boolean")){
+        throw ParseException();
+        return NULL;
     }
+    res->addChild(new ParseTree(current()->getType(), current()->getValue()));
+
+    next();
+    if (!(current()->getType() == "identifier")){
+        throw ParseException();
+        return NULL;
+    }
+    res->addChild(new ParseTree(current()->getType(), current()->getValue()));
+
+    next();
+    if (!have("symbol", ";")){
+        throw ParseException();
+        return NULL;
+    }
+    res->addChild(new ParseTree(current()->getType(), current()->getValue()));
 
     return res;
 }
@@ -179,10 +196,27 @@ ParseTree* CompilerParser::compileSubroutineBody() {
 ParseTree* CompilerParser::compileVarDec() {
     ParseTree* res = new ParseTree("varDec", "");
     res->addChild(new ParseTree("keyword", "var"));
-    while (currentItr != tokens.end() && !have("symbol", ";")){
-        next();
-        res->addChild(new ParseTree(current()->getType(), current()->getValue()));
+    
+    next();
+    if (!have("keyword", "int") && !have("keyword", "int") && !have("keyword", "boolean")){
+        throw ParseException();
+        return NULL;
     }
+    res->addChild(new ParseTree(current()->getType(), current()->getValue()));
+
+    next();
+    if (!(current()->getType() == "identifier")){
+        throw ParseException();
+        return NULL;
+    }
+    res->addChild(new ParseTree(current()->getType(), current()->getValue()));
+
+    next();
+    if (!have("symbol", ";")){
+        throw ParseException();
+        return NULL;
+    }
+    res->addChild(new ParseTree(current()->getType(), current()->getValue()));
 
     return res;
 }
@@ -192,6 +226,23 @@ ParseTree* CompilerParser::compileVarDec() {
  * @return a ParseTree
  */
 ParseTree* CompilerParser::compileStatements() {
+    ParseTree* res = new ParseTree("statements", "");
+
+    if (current()->getType() == "keyword"){
+        if (current()->getValue() == "let"){
+            res->addChild(compileLet());
+        } else if (current()->getValue() == "if"){
+            res->addChild(compileLet());
+        } else if (current()->getValue() == "while"){
+            res->addChild(compileLet());
+        } else if (current()->getValue() == "do"){
+            res->addChild(compileLet());
+        } else if (current()->getValue() == "return"){
+            res->addChild(compileLet());
+        }
+    }
+
+
     return NULL;
 }
 
