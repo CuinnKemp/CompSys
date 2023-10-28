@@ -381,12 +381,13 @@ ParseTree* CompilerParser::compileLet() {
  */
 ParseTree* CompilerParser::compileIf() {
     ParseTree* res = new ParseTree("ifStatement","");
+
     if (!have("keyword", "if")){
         throw ParseException();
     }
     res->addChild(new ParseTree(current()->getType(), current()->getValue() ));
     next();
-
+    
     if (!have("symbol", "(")){
         throw ParseException();
     }
@@ -395,7 +396,6 @@ ParseTree* CompilerParser::compileIf() {
 
     res->addChild(compileExpression());
     next();
-
 
     if (!have("symbol", ")")){
         throw ParseException();
@@ -410,8 +410,7 @@ ParseTree* CompilerParser::compileIf() {
     next();
 
     res->addChild(compileStatements());
-    next();
-
+    
     if (!have("symbol", "}")){
         throw ParseException();
     }
@@ -419,7 +418,7 @@ ParseTree* CompilerParser::compileIf() {
     next();
 
     if (!have("keyword", "else")){
-        throw ParseException();
+        return res;
     }
     res->addChild(new ParseTree(current()->getType(), current()->getValue() ));
     next();
