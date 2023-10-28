@@ -42,7 +42,7 @@ ParseTree* CompilerParser::compileClass() {
     
     ParseTree* res = new ParseTree("class", "");
     res->addChild(new ParseTree("keyword", "class"));
-    res->addChild(new ParseTree("identifier",  current()->getValue()));
+    res->addChild(new ParseTree(current()->getType(),  current()->getValue()));
     next();
     
     if (!have("symbol", "{")){
