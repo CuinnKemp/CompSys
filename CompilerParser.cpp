@@ -42,7 +42,10 @@ ParseTree* CompilerParser::compileClass() {
     next();
     if (have("symbol", "{")){
         res->addChild(new ParseTree("symbol", "{"));
-        res->addChild(compileClassVarDec());
+        next();
+        if (!have("symbol", "}")){
+            res->addChild(compileClassVarDec());
+        }
     } else{
         throw ParseException();
         return NULL;
