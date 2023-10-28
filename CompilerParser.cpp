@@ -196,9 +196,12 @@ ParseTree* CompilerParser::compileParameterList() {
     if (!have("symbol", ",")){
         return res;
     }
+    res->addChild(new ParseTree(current()->getType(), current()->getValue() ));
+    next();
 
     while (currentItr != tokens.end() && !have("symbol", ")")){
-        if (!have("keyword", "int") && !have("keyword", "char") && !have("keyword", "boolean") && !(current()->getType() == "identifier")){
+        if (!have("keyword", "int") && !have("keyword", "char") && !have("keyword", "boolean") && current()->getType() != "identifier"){
+            cout << "here" << endl;
             throw ParseException();
             return NULL;
         }
