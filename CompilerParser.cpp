@@ -56,7 +56,6 @@ ParseTree* CompilerParser::compileClass() {
     while (currentItr != tokens.end() && !have("symbol", "}")){
         if (have("keyword", "function") || have("keyword", "method") || have("keyword", "constructor")){
             res->addChild(compileSubroutine());
-
         } else if (have("keyword", "static") || have("keyword", "field")){
             res->addChild(compileClassVarDec());
         } else {
@@ -87,7 +86,7 @@ ParseTree* CompilerParser::compileClassVarDec() {
     res->addChild(new ParseTree(current()->getType(), current()->getValue() ));
 
     next();
-    if (!have("keyword", "int") && !have("keyword", "int") && !have("keyword", "boolean") && !(current()->getType() == "identifier")){
+    if (!have("keyword", "int") && !have("keyword", "char") && !have("keyword", "boolean") && !(current()->getType() == "identifier")){
         throw ParseException();
         return NULL;
     }
@@ -179,7 +178,7 @@ ParseTree* CompilerParser::compileParameterList() {
     
     while (currentItr != tokens.end() && !have("symbol", ")")){
         
-        if (!have("keyword", "int") && !have("keyword", "int") && !have("keyword", "boolean") && !(current()->getType() == "identifier")){
+        if (!have("keyword", "int") && !have("keyword", "char") && !have("keyword", "boolean") && !(current()->getType() == "identifier")){
             throw ParseException();
             return NULL;
         }
@@ -242,7 +241,7 @@ ParseTree* CompilerParser::compileVarDec() {
     res->addChild(new ParseTree(current()->getType(), current()->getValue() ));
     
     next();
-    if (!have("keyword", "int") && !have("keyword", "int") && !have("keyword", "boolean") && current()->getType() != "identifier"){
+    if (!have("keyword", "int") && !have("keyword", "char") && !have("keyword", "boolean") && current()->getType() != "identifier"){
         throw ParseException();
         return NULL;
     }
