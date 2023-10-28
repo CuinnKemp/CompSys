@@ -349,6 +349,8 @@ ParseTree* CompilerParser::compileLet() {
         next();
         if (!have("keyword", "skip")){
             res->addChild(compileExpression());
+        } else{
+            res->addChild(new ParseTree(current()->getType(), current()->getValue()));
         }
         next();
         if (!have("symbol", "]")){
@@ -367,6 +369,8 @@ ParseTree* CompilerParser::compileLet() {
 
     if (!have("keyword", "skip")){
         res->addChild(compileExpression());
+    } else{
+        res->addChild(new ParseTree(current()->getType(), current()->getValue()));
     }
     next();
     
@@ -398,6 +402,8 @@ ParseTree* CompilerParser::compileIf() {
 
     if (!have("keyword", "skip")){
         res->addChild(compileExpression());
+    } else{
+        res->addChild(new ParseTree(current()->getType(), current()->getValue()));
     }
     next();
 
@@ -468,6 +474,8 @@ ParseTree* CompilerParser::compileWhile() {
 
     if (!have("keyword", "skip")){
         res->addChild(compileExpression());
+    } else{
+        res->addChild(new ParseTree(current()->getType(), current()->getValue()));
     }
     next();
 
@@ -510,6 +518,8 @@ ParseTree* CompilerParser::compileDo() {
 
     if (!have("keyword", "skip")){
         res->addChild(compileExpression());
+    } else{
+        res->addChild(new ParseTree(current()->getType(), current()->getValue()));
     }
     next();
     
@@ -536,6 +546,8 @@ ParseTree* CompilerParser::compileReturn() {
 
     if (!have("keyword", "skip")){
         res->addChild(compileExpression());
+    } else{
+        res->addChild(new ParseTree(current()->getType(), current()->getValue()));
     }
     next();
     
