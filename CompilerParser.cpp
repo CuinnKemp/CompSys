@@ -18,8 +18,8 @@ ParseTree* CompilerParser::compileProgram() {
     if (have("keyword","class")){
         ParseTree* res = new ParseTree("keyword","class");
         next();
-        if(have("identifier","Main")){
-            res->addChild(new ParseTree("identifier","Main"));
+        if(have("identifier","main")){
+            res->addChild(new ParseTree("identifier","main"));
             res->addChild(compileClass());
             return res;
         } else{
