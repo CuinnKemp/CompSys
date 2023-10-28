@@ -475,7 +475,6 @@ ParseTree* CompilerParser::compileWhile() {
     next();
 
     res->addChild(compileStatements());
-    next();
 
     if (!have("symbol", "}")){
         throw ParseException();
@@ -522,6 +521,11 @@ ParseTree* CompilerParser::compileReturn() {
     }
     res->addChild(new ParseTree(current()->getType(), current()->getValue() ));
     next();
+
+    if (have("symbol", ";")){
+        res->addChild(new ParseTree(current()->getType(), current()->getValue() ));
+        return res;
+    }
 
     res->addChild(compileExpression());
     next();
