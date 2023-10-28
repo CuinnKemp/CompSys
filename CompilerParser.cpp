@@ -219,9 +219,7 @@ ParseTree* CompilerParser::compileSubroutineBody() {
     next();
     while (currentItr != tokens.end() && !have("symbol", "}")){
         if (have("keyword", "var")){
-            cout << "here" << endl;
             res->addChild(compileVarDec());
-            cout << "here" << endl;
             next();
             continue;
         }
@@ -315,7 +313,37 @@ ParseTree* CompilerParser::compileStatements() {
  * @return a ParseTree
  */
 ParseTree* CompilerParser::compileLet() {
-    return NULL;
+    ParseTree* res = new ParseTree("letStatement", "");
+    if (!have("keyword", "let")){
+        throw ParseException();
+    }
+    res->addChild(new ParseTree("keyword", "let"));
+    next();
+
+    if (current()->getType() != "identifier"){
+        throw ParseException();
+    }
+    res->addChild(new ParseTree("identifier", current()->getValue()));
+    next();
+
+    if (!have("symbol", "=")){
+        throw ParseException();
+    }
+    res->addChild(new ParseTree("symbol", "="));
+    next();
+
+    if (!have("keyword", "skip")){
+        res->addChild(compileExpression());
+    }
+    next();
+    
+    if (!have("symbol", ";")){
+        throw ParseException();
+    }
+    res->addChild(new ParseTree("symbol", ";"));
+    next();
+
+    return res;
 }
 
 /**
@@ -323,7 +351,70 @@ ParseTree* CompilerParser::compileLet() {
  * @return a ParseTree
  */
 ParseTree* CompilerParser::compileIf() {
-    return NULL;
+    ParseTree* res = new ParseTree("ifStatement", "");
+    if (!have("keyword", "if")){
+        throw ParseException();
+    }
+    res->addChild(new ParseTree("keyword", "if"));
+    next();
+
+    if (!have("symbol", "(")){
+        throw ParseException();
+    }
+    res->addChild(new ParseTree("symbol", "("));
+    next();
+
+    if (!have("keyword", "skip")){
+        res->addChild(compileExpression());
+    }
+    next();
+
+
+    if (!have("symbol", ")")){
+        throw ParseException();
+    }
+    res->addChild(new ParseTree("symbol", ")"));
+    next();
+
+    if (!have("symbol", "{")){
+        throw ParseException();
+    }
+    res->addChild(new ParseTree("symbol", "{"));
+    next();
+
+    res->addChild(compileStatements());
+    next();
+
+    if (!have("symbol", "}")){
+        throw ParseException();
+    }
+    res->addChild(new ParseTree("symbol", "}"));
+    next();
+
+    if (!have("keyword", "else")){
+        throw ParseException();
+    }
+    res->addChild(new ParseTree("keyword", "else"));
+    next();
+
+    if (!have("symbol", "{")){
+        throw ParseException();
+    }
+    res->addChild(new ParseTree("symbol", "{"));
+    next();
+        
+    
+
+    res->addChild(compileStatements());
+    next();
+
+    if (!have("symbol", "}")){
+        throw ParseException();
+    }
+    res->addChild(new ParseTree("symbol", "}"));
+    next();
+
+    return res;
 }
 
 /**
@@ -331,7 +422,47 @@ ParseTree* CompilerParser::compileIf() {
  * @return a ParseTree
  */
 ParseTree* CompilerParser::compileWhile() {
-    return NULL;
+    ParseTree* res = new ParseTree("whileStatement", "");
+    if (!have("keyword", "while")){
+        throw ParseException();
+    }
+    res->addChild(new ParseTree("keyword", "while"));
+    next();
+
+    if (!have("symbol", "(")){
+        throw ParseException();
+    }
+    res->addChild(new ParseTree("symbol", "("));
+    next();
+
+    if (!have("keyword", "skip")){
+        res->addChild(compileExpression());
+    }
+    next();
+
+    if (!have("symbol", ")")){
+        throw ParseException();
+    }
+    res->addChild(new ParseTree("symbol", ")"));
+    next();
+
+    if (!have("symbol", "{")){
+        throw ParseException();
+    }
+    res->addChild(new ParseTree("symbol", "{"));
+    next();
+
+    res->addChild(compileStatements());
+    next();
+
+    if (!have("symbol", "}")){
+        throw ParseException();
+    }
+    res->addChild(new ParseTree("symbol", "}"));
+    next();
+
+
+    return res;
 }
 
 /**
@@ -339,7 +470,26 @@ ParseTree* CompilerParser::compileWhile() {
  * @return a ParseTree
  */
 ParseTree* CompilerParser::compileDo() {
-    return NULL;
+    ParseTree* res = new ParseTree("doStatement", "");
+
+    if (!have("keyword", "do")){
+        throw ParseException();
+    }
+    res->addChild(new ParseTree("keyword", "do"));
+    next();
+
+    if (!have("keyword", "skip")){
+        res->addChild(compileExpression());
+    }
+    next();
+    
+    if (!have("symbol", ";")){
+        throw ParseException();
+    }
+    res->addChild(new ParseTree("symbol", ";"));
+    next();
+
+    return res;
 }
 
 /**
@@ -347,7 +497,27 @@ ParseTree* CompilerParser::compileDo() {
  * @return a ParseTree
  */
 ParseTree* CompilerParser::compileReturn() {
-    return NULL;
+    ParseTree* res = new ParseTree("returnStatement", "");
+
+    if (!have("keyword", "return")){
+        throw ParseException();
+    }
+    res->addChild(new ParseTree("keyword", "return"));
+    next();
+
+    if (!have("keyword", "skip")){
+        res->addChild(compileExpression());
+    }
+    next();
+    
+    if (!have("symbol", ";")){
+        throw ParseException();
+    }
+    res->addChild(new ParseTree("symbol", ";"));
+    next();
+
+
+    return res;
 }
 
 /**
