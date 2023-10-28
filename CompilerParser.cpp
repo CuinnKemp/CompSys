@@ -130,7 +130,7 @@ ParseTree* CompilerParser::compileSubroutine() {
     ParseTree* res = new ParseTree("subroutine","");
     res->addChild(new ParseTree(current()->getType(), current()->getValue() ));
     next();
-    if (current()->getType() != "keyword"){
+    if (current()->getType() != "keyword" && current()->getType() != "identifier"){
         throw ParseException();
     }
     res->addChild(new ParseTree(current()->getType(), current()->getValue() ));
