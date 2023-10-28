@@ -175,6 +175,27 @@ ParseTree* CompilerParser::compileSubroutine() {
 ParseTree* CompilerParser::compileParameterList() {
     
     ParseTree* res = new ParseTree("parameterList","");
+
+    if (!have("keyword", "int") && !have("keyword", "char") && !have("keyword", "boolean") && !(current()->getType() == "identifier")){
+            throw ParseException();
+            return NULL;
+        }
+        res->addChild(new ParseTree(current()->getType(), current()->getValue() ));
+        next();
+        
+        
+        if (current()->getType() != "identifier"){
+            throw ParseException();
+            return NULL;
+        }
+        res->addChild(new ParseTree(current()->getType(), current()->getValue() ));
+        next();
+
+        
+        if (!have("symbol", ",") ){
+            return res;
+        }
+
     
     while (currentItr != tokens.end() && !have("symbol", ")")){
         
@@ -201,8 +222,6 @@ ParseTree* CompilerParser::compileParameterList() {
                 throw ParseException();
             }
         }
-
-        
         
     }
     return res;
