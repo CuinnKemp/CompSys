@@ -243,7 +243,6 @@ ParseTree* CompilerParser::compileSubroutineBody() {
             continue;
         }
         res->addChild(compileStatements());
-        next();
     }
     if (!have("symbol", "}")){
         throw ParseException();
@@ -306,7 +305,6 @@ ParseTree* CompilerParser::compileStatements() {
     while (have("keyword", "let") || have("keyword", "if") || have("keyword", "while") || have("keyword", "do") || have("keyword", "return")){
         if (current()->getType() == "keyword"){
             if (current()->getValue() == "let"){
-                cout << "let" << endl;
                 res->addChild(compileLet());
             } else if (current()->getValue() == "if"){
                 res->addChild(compileIf());
