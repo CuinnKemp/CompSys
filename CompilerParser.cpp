@@ -311,7 +311,6 @@ ParseTree* CompilerParser::compileStatements() {
             } else if (current()->getValue() == "while"){
                 res->addChild(compileWhile());
             } else if (current()->getValue() == "do"){
-                cout << "do" << endl;
                 res->addChild(compileDo());
             } else if (current()->getValue() == "return"){
                 res->addChild(compileReturn());
@@ -344,6 +343,21 @@ ParseTree* CompilerParser::compileLet() {
     }
     res->addChild(new ParseTree(current()->getType(), current()->getValue() ));
     next();
+    
+    if (have("symbol", "[")){
+        res->addChild(new ParseTree(current()->getType(), current()->getValue()));
+        next();
+        if (!have("keyword", "skip")){
+            res->addChild(compileExpression());
+        }
+        next();
+        if (!have("symbol", "]")){
+            throw ParseException();
+        }
+        res->addChild(new ParseTree(current()->getType(), current()->getValue()));
+        next();
+    }
+    
 
     if (!have("symbol", "=")){
         throw ParseException();
@@ -493,7 +507,6 @@ ParseTree* CompilerParser::compileDo() {
     }
     res->addChild(new ParseTree(current()->getType(), current()->getValue() ));
     next();
-    cout << "here" << endl;
 
     if (!have("keyword", "skip")){
         res->addChild(compileExpression());
