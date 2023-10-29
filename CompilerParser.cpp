@@ -551,23 +551,11 @@ ParseTree* CompilerParser::compileExpression() {
     }
 
     while (currentItr != tokens.end()){
-        if (current()->getType() == "integerConstant"|| current()->getType() == "stringConstant"|| current()->getType() == "identifier"){
+        if (current()->getType() == "integerConstant"|| current()->getType() == "stringConstant"|| current()->getType() == "identifier" || current()->getType() == "keyword"){
             res->addChild(compileTerm());
 
-        } else if(current()->getType() == "keyword"){
-            res->addChild(new ParseTree(current()->getType(), current()->getValue() ));
-            next();
-    
         } else if (have("symbol", "(")){
-            res->addChild(new ParseTree(current()->getType(), current()->getValue() ));
-            next();
-            res->addChild(compileExpression());
-            
-            if (!have("symbol", ")")){
-                throw ParseException();
-            }
-            res->addChild(new ParseTree(current()->getType(), current()->getValue() ));
-            next();
+            res->addChild(compileTerm());
 
         } else if(have("symbol","+") || have("symbol","-") || 
                 have("symbol","*") || have("symbol","/") || 
@@ -593,8 +581,23 @@ ParseTree* CompilerParser::compileExpression() {
  */
 ParseTree* CompilerParser::compileTerm() {
     ParseTree* res = new ParseTree("term", "");
+
+    if (have("symbol", "(")){
+        res->addChild(new ParseTree(current()->getType(), current()->getValue() ));
+        next();
+
+        res->addChild(compileExpression());
+        if (!have("symbol", ")")){
+            throw ParseException();
+        }
+        res->addChild(new ParseTree(current()->getType(), current()->getValue() ));
+        next();
+        return res;
+    }
+
+
     while (currentItr != tokens.end()){
-        if (current()->getType() == "integerConstant"|| current()->getType() == "stringConstant"|| current()->getType() == "identifier"){
+        if (current()->getType() == "integerConstant"|| current()->getType() == "stringConstant"|| current()->getType() == "identifier" || current()->getType() == "keyword"){
             res->addChild(new ParseTree(current()->getType(), current()->getValue() ));
             next();
         } else {
