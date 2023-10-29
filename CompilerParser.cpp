@@ -641,6 +641,12 @@ ParseTree* CompilerParser::compileExpressionList() {
         }
     }
 
+    if (!have("symbol", ")")){
+        throw ParseException();
+    }
+    res->addChild(new ParseTree(current()->getType(), current()->getValue() ));
+    next();
+
 
     return res;
 }
