@@ -572,8 +572,7 @@ ParseTree* CompilerParser::compileExpression() {
             next();
 
             //add function name
-            res->addChild(new ParseTree(current()->getType(), current()->getValue() ));
-            next();
+            res->addChild(compileTerm());
 
             res->addChild(compileExpressionList());
 
