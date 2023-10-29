@@ -566,6 +566,17 @@ ParseTree* CompilerParser::compileExpression() {
             res->addChild(new ParseTree(current()->getType(), current()->getValue() ));
             next();
 
+        } else if (have("symbol",".")){
+            // add dot
+            res->addChild(new ParseTree(current()->getType(), current()->getValue() ));
+            next();
+
+            //add function name
+            res->addChild(new ParseTree(current()->getType(), current()->getValue() ));
+            next();
+
+            res->addChild(compileExpressionList());
+
         } else{
             break;
         }  
@@ -612,7 +623,26 @@ ParseTree* CompilerParser::compileTerm() {
  * @return a ParseTree
  */
 ParseTree* CompilerParser::compileExpressionList() {
-    return NULL;
+    ParseTree* res = new ParseTree("expressionList", "");
+    cout << "here" << endl;
+    if (!have("symbol", "(")){
+        throw ParseException();
+    }
+    res->addChild(new ParseTree(current()->getType(), current()->getValue() ));
+    next();
+
+    while (currentItr != tokens.end() && !have("symbol", ")")){
+        cout << current()->getType() << endl;
+        if (have("symbol", ",")){
+            res->addChild(new ParseTree(current()->getType(), current()->getValue() ));
+            next();
+        } else {
+            res->addChild(compileExpression());
+        }
+    }
+
+
+    return res;
 }
 
 /**

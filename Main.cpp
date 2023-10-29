@@ -72,20 +72,16 @@ int main(int argc, char *argv[]) {
     // tokens.push_back(new Token("symbol", ","));
     // tokens.push_back(new Token("identifier", "test"));
     // tokens.push_back(new Token("identifier", "d"));
-    tokens.push_back(new Token("keyword", "while"));
+    
+    tokens.push_back(new Token("identifier", "Main"));
+    tokens.push_back(new Token("symbol", "."));
+    tokens.push_back(new Token("identifer", "myFunc"));
     tokens.push_back(new Token("symbol", "("));
     tokens.push_back(new Token("integerConstant", "1"));
-    tokens.push_back(new Token("symbol", "+"));
-    tokens.push_back(new Token("symbol", "("));
-    tokens.push_back(new Token("identifier", "a"));
-    tokens.push_back(new Token("symbol", "+"));
-    tokens.push_back(new Token("integerConstant", "1"));
-    tokens.push_back(new Token("symbol", "="));
-    tokens.push_back(new Token("keyword", "true"));
+    tokens.push_back(new Token("symbol", ","));
+    tokens.push_back(new Token("identifier", "Hello"));
     tokens.push_back(new Token("symbol", ")"));
-    tokens.push_back(new Token("symbol", ")"));
-    tokens.push_back(new Token("symbol", "{"));
-    tokens.push_back(new Token("symbol", "}"));
+    
 
 
 
@@ -94,7 +90,7 @@ int main(int argc, char *argv[]) {
     try {
         CompilerParser parser(tokens);
         // ParseTree* result = parser.compileProgram();
-        ParseTree* result = parser.compileWhile();
+        ParseTree* result = parser.compileExpression();
         if (result != NULL){
             cout << result->tostring() << endl;
         }
