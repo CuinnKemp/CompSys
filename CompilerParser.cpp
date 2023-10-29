@@ -566,16 +566,6 @@ ParseTree* CompilerParser::compileExpression() {
             res->addChild(new ParseTree(current()->getType(), current()->getValue() ));
             next();
 
-        } else if (have("symbol",".")){
-            // add dot
-            res->addChild(new ParseTree(current()->getType(), current()->getValue() ));
-            next();
-
-            //add function name
-            res->addChild(compileTerm());
-
-            res->addChild(compileExpressionList());
-
         } else{
             break;
         }  
@@ -610,7 +600,29 @@ ParseTree* CompilerParser::compileTerm() {
         if (current()->getType() == "integerConstant"|| current()->getType() == "stringConstant"|| current()->getType() == "identifier" || current()->getType() == "keyword"){
             res->addChild(new ParseTree(current()->getType(), current()->getValue() ));
             next();
-        } else {
+        } else if (have("symbol",".")){
+            // add dot
+            res->addChild(new ParseTree(current()->getType(), current()->getValue() ));
+            next();
+
+            //add function name
+            res->addChild(new ParseTree(current()->getType(), current()->getValue() ));
+            next();
+            if (!have("symbol", "(")){
+                throw ParseException();
+            }
+            res->addChild(new ParseTree(current()->getType(), current()->getValue() ));
+            next();
+
+            res->addChild(compileExpressionList());
+
+            if (!have("symbol", ")")){
+                throw ParseException();
+            }
+            res->addChild(new ParseTree(current()->getType(), current()->getValue() ));
+            next();
+
+        }else {
             break;
         }
     }
@@ -623,12 +635,6 @@ ParseTree* CompilerParser::compileTerm() {
  */
 ParseTree* CompilerParser::compileExpressionList() {
     ParseTree* res = new ParseTree("expressionList", "");
-    cout << "here" << endl;
-    if (!have("symbol", "(")){
-        throw ParseException();
-    }
-    res->addChild(new ParseTree(current()->getType(), current()->getValue() ));
-    next();
 
     while (currentItr != tokens.end() && !have("symbol", ")")){
         cout << current()->getType() << endl;
@@ -639,13 +645,6 @@ ParseTree* CompilerParser::compileExpressionList() {
             res->addChild(compileExpression());
         }
     }
-
-    if (!have("symbol", ")")){
-        throw ParseException();
-    }
-    res->addChild(new ParseTree(current()->getType(), current()->getValue() ));
-    next();
-
 
     return res;
 }
