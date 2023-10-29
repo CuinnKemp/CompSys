@@ -551,7 +551,7 @@ ParseTree* CompilerParser::compileExpression() {
     }
 
     while (currentItr != tokens.end()){
-        if (current()->getType() == "integerConstant"|| current()->getType() == "stringConstant"|| current()->getType() == "identifier" || current()->getValue() == "true"){
+        if (current()->getType() == "integerConstant"|| current()->getType() == "stringConstant"|| current()->getType() == "identifier" || current()->getType() == "keyword"){
             res->addChild(compileTerm());
 
         } else if (have("symbol", "(")){
@@ -590,7 +590,7 @@ ParseTree* CompilerParser::compileExpression() {
 ParseTree* CompilerParser::compileTerm() {
     ParseTree* res = new ParseTree("term", "");
     while (currentItr != tokens.end()){
-        if (current()->getType() == "integerConstant"|| current()->getType() == "stringConstant"|| current()->getType() == "identifier" || || current()->getValue() == "true"){
+        if (current()->getType() == "integerConstant"|| current()->getType() == "stringConstant"|| current()->getType() == "identifier" || current()->getType() == "keyword"){
             res->addChild(new ParseTree(current()->getType(), current()->getValue() ));
             next();
         } else {
