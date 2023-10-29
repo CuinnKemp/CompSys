@@ -349,7 +349,7 @@ ParseTree* CompilerParser::compileLet() {
         next();
 
         res->addChild(compileExpression());
-        next();
+        
         if (!have("symbol", "]")){
             throw ParseException();
         }
@@ -365,7 +365,7 @@ ParseTree* CompilerParser::compileLet() {
     next();
 
     res->addChild(compileExpression());
-    next();
+
     
     if (!have("symbol", ";")){
         throw ParseException();
@@ -395,7 +395,6 @@ ParseTree* CompilerParser::compileIf() {
     next();
 
     res->addChild(compileExpression());
-    next();
 
     if (!have("symbol", ")")){
         throw ParseException();
@@ -460,7 +459,6 @@ ParseTree* CompilerParser::compileWhile() {
     next();
 
     res->addChild(compileExpression());
-    next();
 
     if (!have("symbol", ")")){
         throw ParseException();
@@ -499,7 +497,7 @@ ParseTree* CompilerParser::compileDo() {
     next();
 
     res->addChild(compileExpression());
-    next();
+    
     
     if (!have("symbol", ";")){
         throw ParseException();
@@ -528,7 +526,7 @@ ParseTree* CompilerParser::compileReturn() {
     }
 
     res->addChild(compileExpression());
-    next();
+    
     
     if (!have("symbol", ";")){
         throw ParseException();
@@ -545,11 +543,44 @@ ParseTree* CompilerParser::compileReturn() {
  */
 ParseTree* CompilerParser::compileExpression() {
     ParseTree* res = new ParseTree("expression", "");
+
     if (have("keyword", "skip")){
         res->addChild(new ParseTree(current()->getType(), current()->getValue() ));
+        next();
         return res;
     }
-    return NULL;
+
+    while (currentItr != tokens.end()){
+        if (current()->getType() == "integerConstant"|| current()->getType() == "stringConstant"|| current()->getType() == "identifier"){
+            res->addChild(compileTerm());
+
+        } else if (have("symbol", "(")){
+            res->addChild(new ParseTree(current()->getType(), current()->getValue() ));
+            next();
+            res->addChild(compileExpression());
+            
+            if (!have("symbol", ")")){
+                throw ParseException();
+            }
+            res->addChild(new ParseTree(current()->getType(), current()->getValue() ));
+            next();
+
+        } else if(have("symbol","+") || have("symbol","-") || 
+                have("symbol","*") || have("symbol","/") || 
+                have("symbol","&") || have("symbol","|") || 
+                have("symbol","<") || have("symbol",">") || 
+                have("symbol","=")){
+                    
+            res->addChild(new ParseTree(current()->getType(), current()->getValue() ));
+            next();
+
+        } else{
+            break;
+        }  
+    }
+    
+
+    return res;
 }
 
 /**
@@ -557,7 +588,16 @@ ParseTree* CompilerParser::compileExpression() {
  * @return a ParseTree
  */
 ParseTree* CompilerParser::compileTerm() {
-    return NULL;
+    ParseTree* res = new ParseTree("term", "");
+    while (currentItr != tokens.end()){
+        if (current()->getType() == "integerConstant"|| current()->getType() == "stringConstant"|| current()->getType() == "identifier"){
+            res->addChild(new ParseTree(current()->getType(), current()->getValue() ));
+            next();
+        } else {
+            break;
+        }
+    }
+    return res;
 }
 
 /**
