@@ -1,0 +1,14 @@
+push constant 10
+pop static 0
+goto skip
+
+goto end
+
+label skip
+push constant 1
+push static 0
+add
+pop static 0
+
+label end
+goto end

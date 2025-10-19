@@ -1,0 +1,4 @@
+push constant 32
+push constant 0
+or
+pop static 0
